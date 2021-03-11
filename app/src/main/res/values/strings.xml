@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Holiday Click</string>
+    <string name="hello">hello</string>
+    <string name="add">Add Date</string>
+    <string name="close">Close</string>
+    <string name="mdate">Date</string>
+    <string name="dayTitle">Day Title</string>
+</resources>

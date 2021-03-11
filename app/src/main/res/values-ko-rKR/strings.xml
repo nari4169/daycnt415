@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">휴일시계</string>
+    <string name="hello">안녕</string>
+    <string name="add">추가</string>
+    <string name="close">닫기</string>
+    <string name="mdate">날짜</string>
+    <string name="dayTitle">휴일명칭</string>
+</resources>
