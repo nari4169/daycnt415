@@ -1,6 +1,8 @@
 package com.billcoreatech.daycnt311;
 
 import android.app.AlertDialog;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -26,6 +28,7 @@ import com.billcoreatech.daycnt311.databinding.ActivityMainBinding;
 import com.billcoreatech.daycnt311.databinding.DayinfoitemBinding;
 import com.billcoreatech.daycnt311.databinding.PopupWindowBinding;
 import com.billcoreatech.daycnt311.dayManager.DayinfoBean;
+import com.billcoreatech.daycnt311.util.DayCntWidget;
 import com.billcoreatech.daycnt311.util.GridAdapter;
 import com.billcoreatech.daycnt311.util.Holidays;
 import com.billcoreatech.daycnt311.util.StringUtil;
@@ -134,6 +137,10 @@ public class MainActivity extends AppCompatActivity {
                                 );
                                 dbHandler.close();
                                 getDispMonth(pDate);
+
+                                int[] ids = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), DayCntWidget.class));
+                                DayCntWidget myWidget = new DayCntWidget();
+                                myWidget.onUpdate(MainActivity.this, AppWidgetManager.getInstance(MainActivity.this),ids);
                             }
                         })
                         .setNegativeButton(getString(R.string.close), null);
@@ -189,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
 
         Log.i(TAG, "bfDay=" + bfDay + " afDay=" + afDay);
         String sTime = option.getString("startTime", "18:00");
-        String eTime = option.getString("closeTime", "00:00");
+        String eTime = option.getString("closeTime", "24:00");
 
         binding.txtDayToDay.setText(strUtil.getDispDay(bfDay) + " " + sTime + " ~ "
                 + strUtil.getDispDay(afDay) + " " + eTime) ;
@@ -310,7 +317,7 @@ public class MainActivity extends AppCompatActivity {
 
         // show the popup window
         // which view you pass in doesn't matter, it is only used for the window tolken
-        popupWindow.showAtLocation(view, Gravity.TOP, 0, 0);
+        popupWindow.showAtLocation(view, Gravity.NO_GRAVITY, 300, 600);
 
         popupBinding.txtMonth.setText(curYearFormat.format(pDate)) ;
         Calendar mCal = Calendar.getInstance();

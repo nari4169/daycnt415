@@ -14,7 +14,7 @@
     <string name="OK">확인</string>
     <string name="initiate">초기화</string>
     <string name="InitOK">초기화 시작</string>
-    <string name="msgInitOK">초기화를 진행하고 앱이 시작 됩니다.</string>
+    <string name="msgInitOK">초기화를 진행하고 앱이 시작 됩니다. 잠시 동안 기다려 주세요.</string>
     <string name="labelSun">일</string>
     <string name="labelMon">월</string>
     <string name="labelTue">화</string>

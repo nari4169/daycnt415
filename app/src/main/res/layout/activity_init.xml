@@ -15,4 +15,22 @@
         android:text="@string/initiate"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/base_progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background_text_gray"
+        android:clickable="true"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <ProgressBar
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminateDrawable="@drawable/circle_progress"
+            android:indeterminateDuration="1000" />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

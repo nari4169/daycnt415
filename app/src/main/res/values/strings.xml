@@ -14,7 +14,7 @@
     <string name="OK">OK</string>
     <string name="initiate">initiate</string>
     <string name="InitOK">Initiate Ready</string>
-    <string name="msgInitOK">press Ok to Start App\'s</string>
+    <string name="msgInitOK">press Ok to Start App\'s , Please wait a minute</string>
     <string name="labelSun">Sun</string>
     <string name="labelMon">Mon</string>
     <string name="labelTue">Tue</string>

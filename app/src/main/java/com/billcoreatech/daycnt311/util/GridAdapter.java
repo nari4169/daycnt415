@@ -103,7 +103,7 @@ public class GridAdapter extends BaseAdapter {
                 tvItemGridView.setTextColor(context.getColor(R.color.softblue));
             }
             if (sToday.equals(getItem(position))) { //오늘 day 텍스트 컬러 변경
-                tvItemGridView.setBackground(ContextCompat.getDrawable(context, R.drawable.backgroud_text_gray));
+                tvItemGridView.setBackground(ContextCompat.getDrawable(context, R.drawable.background_text_gray));
                 tvItemGridView.setTextColor(context.getColor(R.color.white));
             } else {
                 tvItemGridView.setBackground(ContextCompat.getDrawable(context, R.drawable.backgroud_border_100));

@@ -34,13 +34,18 @@ public class SettingActivity extends AppCompatActivity {
         option = getSharedPreferences("option", MODE_PRIVATE);
         editor = option.edit() ;
         binding.edStartTime.setText(option.getString("startTime", "18:00"));
-        binding.edCloseTime.setText(option.getString("closeTime", "00:00"));
+        binding.edCloseTime.setText(option.getString("closeTime", "24:00"));
         binding.btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 editor.putString("startTime", binding.edStartTime.getText().toString());
                 editor.putString("closeTime", binding.edCloseTime.getText().toString());
                 editor.commit();
+
+                int[] ids = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), DayCntWidget.class));
+                DayCntWidget myWidget = new DayCntWidget();
+                myWidget.onUpdate(SettingActivity.this, AppWidgetManager.getInstance(SettingActivity.this),ids);
+
                 finish();
             }
         });

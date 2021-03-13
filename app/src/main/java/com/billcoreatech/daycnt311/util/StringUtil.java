@@ -24,7 +24,7 @@ public class StringUtil {
 
         SharedPreferences option = context.getSharedPreferences("option", context.MODE_PRIVATE);
         String sTime = option.getString("startTime", "1800");
-        String eTime = option.getString("closeTime", "0000");
+        String eTime = option.getString("closeTime", "2400");
         Log.i(TAG, "getTimeTerm sTime=" + sTime + " eTime=" + eTime);
 
         long sec = 0 ;
@@ -48,7 +48,7 @@ public class StringUtil {
 
         SharedPreferences option = context.getSharedPreferences("option", context.MODE_PRIVATE);
         String sTime = option.getString("startTime", "1800");
-        String eTime = option.getString("closeTime", "0000");
+        String eTime = option.getString("closeTime", "2400");
         Log.i(TAG, "getTimeTerm sTime=" + sTime + " eTime=" + eTime);
         long sec = 0 ;
         SimpleDateFormat f = new SimpleDateFormat("yyyyMMdd HHmm", Locale.KOREA);

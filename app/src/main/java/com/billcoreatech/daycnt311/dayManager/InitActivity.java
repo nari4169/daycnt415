@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.billcoreatech.daycnt311.MainActivity;
 import com.billcoreatech.daycnt311.R;
@@ -56,6 +57,7 @@ public class InitActivity extends AppCompatActivity {
                         .setPositiveButton(getString(R.string.OK), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                binding.baseProgressBar.setVisibility(View.VISIBLE);
                                 Calendar cal = Calendar.getInstance();
                                 int year = cal.get(Calendar.YEAR);
                                 dbHandler = DBHandler.open(getApplicationContext());
@@ -85,6 +87,8 @@ public class InitActivity extends AppCompatActivity {
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putString("INIT", "Y") ;
                                 editor.commit() ;
+
+                                binding.baseProgressBar.setVisibility(View.GONE);
 
                                 Intent intent = new Intent(InitActivity.this, MainActivity.class);
                                 startActivity(intent);

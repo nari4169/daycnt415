@@ -61,7 +61,8 @@
                 android:id="@+id/progressBar"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_weight="4"
                 android:progressDrawable="@drawable/progress_style" />
         </LinearLayout>
@@ -85,7 +86,7 @@
                 android:id="@+id/txtYearMonth"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="17"
+                android:layout_weight="15"
                 android:fontFamily="@font/notosansbold"
                 android:gravity="center_horizontal|center_vertical"
                 android:text="TextView"
@@ -96,7 +97,7 @@
                 android:id="@+id/btnSetting"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="3"
+                android:layout_weight="5"
                 android:fontFamily="@font/notosansbold"
                 android:text="@string/Setting" />
 

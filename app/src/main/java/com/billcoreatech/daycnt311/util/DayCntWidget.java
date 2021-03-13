@@ -41,7 +41,7 @@ public class DayCntWidget extends AppWidgetProvider {
 
         SharedPreferences option = context.getSharedPreferences("option", context.MODE_PRIVATE);
         String sTime = option.getString("startTime", "18:00");
-        String eTime = option.getString("closeTime", "00:00");
+        String eTime = option.getString("closeTime", "24:00");
 
         views.setTextViewText(R.id.txtDayToDay1, StringUtil.getDispDay(bfDay) + " " + sTime + " ~ " + StringUtil.getDispDay(afDay) + " " + eTime);
         double b = StringUtil.getTimeTerm(context, afDay, bfDay);
