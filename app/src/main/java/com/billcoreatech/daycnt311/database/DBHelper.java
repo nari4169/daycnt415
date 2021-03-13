@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    private static final String DB_NAME = "DayInfo" ;
+    private static final String DB_NAME = "HolidayInfo" ;
     private static final int DB_Ver = 1 ; //
     String TAG = DB_NAME + ":";
 
@@ -21,7 +21,9 @@ public class DBHelper extends SQLiteOpenHelper {
         sb.append("create table dayinfo (                    ");
         sb.append("   _id integer primary key autoincrement, ");
         sb.append("   mdate text,                            ");
-        sb.append("   msg   text                             ");
+        sb.append("   msg   text,                            ");
+        sb.append("   dayOfweek text,                        ");
+        sb.append("   isholiday text                         ");
         sb.append(" )                                        ");
 
         db.execSQL(sb.toString());

@@ -4,6 +4,8 @@ public class DayinfoBean {
     int id ;
     String mDate ;
     String msg ;
+    String dayOfWeek ;
+    String isHoliday ;
 
     public void setId(int id) {
         this.id = id;
@@ -27,5 +29,21 @@ public class DayinfoBean {
 
     public String getMsg() {
         return msg;
+    }
+
+    public void setDayOfWeek(String dayOfWeek) {
+        this.dayOfWeek = dayOfWeek;
+    }
+
+    public String getDayOfWeek() {
+        return dayOfWeek;
+    }
+
+    public void setIsHoliday(String isHoliday) {
+        this.isHoliday = isHoliday;
+    }
+
+    public String getIsHoliday() {
+        return isHoliday;
     }
 }

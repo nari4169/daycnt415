@@ -5,4 +5,28 @@
     <string name="close">Close</string>
     <string name="mdate">Date</string>
     <string name="dayTitle">Day Title</string>
+    <string name="appwidget_text" translatable="false">EXAMPLE</string>
+    <string name="configure">Configure</string>
+    <string name="add_widget">Add widget</string>
+    <string name="msgBackPress">"press Back Again "</string>
+    <string name="enterYear">YEAR</string>
+    <string name="msgEnterYear">Enter Base Year</string>
+    <string name="OK">OK</string>
+    <string name="initiate">initiate</string>
+    <string name="InitOK">Initiate Ready</string>
+    <string name="msgInitOK">press Ok to Start App\'s</string>
+    <string name="labelSun">Sun</string>
+    <string name="labelMon">Mon</string>
+    <string name="labelTue">Tue</string>
+    <string name="labelWed">Wed</string>
+    <string name="labelThu">Thu</string>
+    <string name="labelFri">Fri</string>
+    <string name="labelSat">Sat</string>
+    <string name="gotoday">goto Today</string>
+    <string name="isHoliday">Holiday</string>
+    <string name="msgEnterHoliday">Enter Holiday Info</string>
+    <string name="holidayMsg">"Enter holiday Msg "</string>
+    <string name="Setting">Setting</string>
+    <string name="starttime">starttime</string>
+    <string name="closetime">Close Time</string>
 </resources>

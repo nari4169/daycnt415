@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:clipToPadding="false"
+    android:descendantFocusability="blocksDescendants"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:weightSum="11">
+
+    <TextView
+        android:id="@+id/tv_item_gridview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"
+        android:background="@drawable/backgroud_border_100"
+        android:fontFamily="@font/notosansbold"
+        android:gravity="center_horizontal" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="6"
+        android:background="@drawable/backgroud_border_100"
+        android:orientation="vertical"
+        android:weightSum="7">
+
+        <com.billcoreatech.daycnt311.util.MarqueeTextView
+            android:id="@+id/tv1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="7"
+            android:ellipsize="marquee"
+            android:fontFamily="@font/notosansbold"
+            android:gravity="center_horizontal|center_vertical"
+            android:includeFontPadding="false"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+</LinearLayout>

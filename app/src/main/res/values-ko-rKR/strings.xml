@@ -6,4 +6,27 @@
     <string name="close">닫기</string>
     <string name="mdate">날짜</string>
     <string name="dayTitle">휴일명칭</string>
+    <string name="configure">설정</string>
+    <string name="add_widget">위젯추가</string>
+    <string name="msgBackPress">종료하려면 한번 더 뒤로 가기를 클릭하세요\'</string>
+    <string name="enterYear">기준년도</string>
+    <string name="msgEnterYear">휴일 작성할 기준년도를 입력하세요</string>
+    <string name="OK">확인</string>
+    <string name="initiate">초기화</string>
+    <string name="InitOK">초기화 시작</string>
+    <string name="msgInitOK">초기화를 진행하고 앱이 시작 됩니다.</string>
+    <string name="labelSun">일</string>
+    <string name="labelMon">월</string>
+    <string name="labelTue">화</string>
+    <string name="labelWed">수</string>
+    <string name="labelThu">목</string>
+    <string name="labelFri">금</string>
+    <string name="labelSat">토</string>
+    <string name="gotoday">오늘로</string>
+    <string name="isHoliday">휴일</string>
+    <string name="msgEnterHoliday">휴일여부를 설정하세요</string>
+    <string name="holidayMsg">휴일의 경우 해당정보를 입력하세요</string>
+    <string name="Setting">설정</string>
+    <string name="starttime">시작시간</string>
+    <string name="closetime">종료시간</string>
 </resources>

@@ -28,6 +28,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="4"
+                android:fontFamily="@font/notosansbold"
                 android:gravity="center_horizontal|center_vertical"
                 android:textSize="18sp" />
 
@@ -36,6 +37,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="6"
+                android:fontFamily="@font/notosansbold"
                 android:gravity="center_horizontal|center_vertical"
                 android:textSize="24sp" />
         </LinearLayout>
@@ -52,7 +54,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="6"
-                android:gravity="center_vertical" />
+                android:fontFamily="@font/notosansbold"
+                android:gravity="center_horizontal|center_vertical" />
 
             <ProgressBar
                 android:id="@+id/progressBar"
@@ -67,71 +70,127 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@drawable/backgroud_border_100"
-        android:orientation="horizontal"
-        android:weightSum="10">
-
-        <Button
-            android:id="@+id/btnAdd"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:fontFamily="@font/regular"
-            android:text="@string/add" />
+        android:layout_weight="16"
+        android:orientation="vertical"
+        android:weightSum="40">
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="4"
-            android:orientation="horizontal">
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:orientation="horizontal"
+            android:weightSum="20">
+
+            <TextView
+                android:id="@+id/txtYearMonth"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="17"
+                android:fontFamily="@font/notosansbold"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="TextView"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnSetting"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:fontFamily="@font/notosansbold"
+                android:text="@string/Setting" />
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btnClose"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:fontFamily="@font/regular"
-            android:text="@string/close" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:orientation="horizontal"
+            android:weightSum="7">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/softred"
+                android:fontFamily="@font/notosansbold"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="@string/labelSun" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/light_blue_50"
+                android:fontFamily="@font/notosansbold"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="@string/labelMon" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/light_blue_50"
+                android:fontFamily="@font/notosansbold"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="@string/labelTue" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/light_blue_50"
+                android:fontFamily="@font/notosansbold"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="@string/labelWed" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/light_blue_50"
+                android:fontFamily="@font/notosansbold"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="@string/labelThu" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/light_blue_50"
+                android:fontFamily="@font/notosansbold"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="@string/labelFri" />
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/softblue"
+                android:fontFamily="@font/notosansbold"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="@string/labelSat" />
+        </LinearLayout>
+
+        <com.billcoreatech.daycnt311.util.MyGridView
+            android:id="@+id/gridView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="37"
+            android:descendantFocusability="blocksDescendants"
+            android:listSelector="@drawable/gridview_selector"
+            android:numColumns="7">
+
+        </com.billcoreatech.daycnt311.util.MyGridView>
 
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@drawable/backgroud_border_100"
-        android:orientation="horizontal"
-        android:weightSum="10">
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="4"
-            android:background="@drawable/backgroud_border_100"
-            android:fontFamily="@font/regular"
-            android:gravity="center_horizontal|center_vertical"
-            android:text="@string/mdate" />
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="6"
-            android:background="@drawable/backgroud_border_100"
-            android:fontFamily="@font/regular"
-            android:gravity="center_horizontal|center_vertical"
-            android:text="@string/dayTitle" />
-    </LinearLayout>
-
-    <ListView
-        android:id="@+id/dayinfoList"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="15"
-        android:background="@drawable/backgroud_border_100" />
 
 </LinearLayout>

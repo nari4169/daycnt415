@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/backgroud_border_200"
+    android:orientation="vertical"
+    android:weightSum="5">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnToday"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:fontFamily="@font/notosansbold"
+            android:text="@string/gotoday"
+            android:textColor="@color/black" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:weightSum="10">
+
+        <Button
+            android:id="@+id/btnPrev"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/ic_calender_arrow_left" />
+
+        <TextView
+            android:id="@+id/txtMonth"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="8"
+            android:background="@drawable/backgroud_border_200"
+            android:fontFamily="@font/notosansbold"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="TextView"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/btnNext"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/ic_calender_arrow_right"
+            android:text="Button" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:weightSum="4">
+
+        <TextView
+            android:id="@+id/txtMonth1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/backgroud_border_200"
+            android:fontFamily="@font/notosansbold"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="1" />
+
+        <TextView
+            android:id="@+id/txtMonth2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/backgroud_border_200"
+            android:fontFamily="@font/notosansbold"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="2" />
+
+        <TextView
+            android:id="@+id/txtMonth3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/backgroud_border_200"
+            android:fontFamily="@font/notosansbold"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="3" />
+
+        <TextView
+            android:id="@+id/txtMonth4"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/backgroud_border_200"
+            android:fontFamily="@font/notosansbold"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="4" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:weightSum="4">
+
+        <TextView
+            android:id="@+id/txtMonth5"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/backgroud_border_200"
+            android:fontFamily="@font/notosansbold"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="5" />
+
+        <TextView
+            android:id="@+id/txtMonth6"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/backgroud_border_200"
+            android:fontFamily="@font/notosansbold"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="6" />
+
+        <TextView
+            android:id="@+id/txtMonth7"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/backgroud_border_200"
+            android:fontFamily="@font/notosansbold"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="7" />
+
+        <TextView
+            android:id="@+id/txtMonth8"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/backgroud_border_200"
+            android:fontFamily="@font/notosansbold"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="8" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:weightSum="4">
+
+        <TextView
+            android:id="@+id/txtMonth9"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/backgroud_border_200"
+            android:fontFamily="@font/notosansbold"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="9" />
+
+        <TextView
+            android:id="@+id/txtMonth10"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/backgroud_border_200"
+            android:fontFamily="@font/notosansbold"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="10" />
+
+        <TextView
+            android:id="@+id/txtMonth11"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/backgroud_border_200"
+            android:fontFamily="@font/notosansbold"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="11" />
+
+        <TextView
+            android:id="@+id/txtMonth12"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/backgroud_border_200"
+            android:fontFamily="@font/notosansbold"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="12" />
+    </LinearLayout>
+
+</LinearLayout>
