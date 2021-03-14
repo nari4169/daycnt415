@@ -86,20 +86,22 @@ public class GridAdapter extends BaseAdapter {
             Date toDay = new Date(now);
             String sToday = sdf.format(toDay) ;
             mCal.setTime(sdf.parse(getItem(position)));
+            Integer weekOfDay = mCal.get(Calendar.DAY_OF_WEEK);
             dbHandler = DBHandler.open(context) ;
             Cursor rs = dbHandler.getTodayMsg(getItem(position));
+            String msg = "" ;
             if (rs.moveToNext()) {
-                tv1.setText(rs.getString(rs.getColumnIndex("msg")));
+                msg = rs.getString(rs.getColumnIndex("msg")) ;
+                tv1.setText(msg);
                 if ("Y".equals(rs.getString(rs.getColumnIndex("isholiday")))) {
                     tvItemGridView.setTextColor(context.getColor(R.color.softred));
                 }
             }
             dbHandler.close();
-            Integer weekOfDay = mCal.get(Calendar.DAY_OF_WEEK);
             if (weekOfDay == Calendar.SUNDAY) {
                 tvItemGridView.setTextColor(context.getColor(R.color.softred));
             }
-            if (weekOfDay == Calendar.SATURDAY) {
+            if (weekOfDay == Calendar.SATURDAY && "".equals(msg)) {
                 tvItemGridView.setTextColor(context.getColor(R.color.softblue));
             }
             if (sToday.equals(getItem(position))) { //오늘 day 텍스트 컬러 변경

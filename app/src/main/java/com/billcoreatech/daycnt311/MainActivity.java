@@ -202,8 +202,8 @@ public class MainActivity extends AppCompatActivity {
                 + strUtil.getDispDay(afDay) + " " + eTime) ;
         double b = strUtil.getTimeTerm(getApplicationContext(), afDay, bfDay);
         double j = strUtil.getTodayTerm1(getApplicationContext(), bfDay);
-        binding.txtHourTerm.setText(String.valueOf(j) + "/" + String.valueOf(b) + " Hour") ;
-        binding.txtRate.setText(String.valueOf(Math.round(j / b * 100)) + "%");
+        binding.txtHourTerm.setText(String.valueOf(Math.round(j)) + "/" + String.valueOf(Math.round(b)) + " Hour") ;
+        binding.txtRate.setText(String.format("%.2f", j / b * 100) + "%");
         binding.progressBar.setMax(100);
         binding.progressBar.setProgress((int) Math.round(j / b * 100));
 

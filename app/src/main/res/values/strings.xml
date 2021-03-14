@@ -5,7 +5,7 @@
     <string name="close">Close</string>
     <string name="mdate">Date</string>
     <string name="dayTitle">Day Title</string>
-    <string name="appwidget_text" translatable="false">EXAMPLE</string>
+    <string name="appwidget_text">Free Day Count</string>
     <string name="configure">Configure</string>
     <string name="add_widget">Add widget</string>
     <string name="msgBackPress">"press Back Again "</string>
@@ -29,4 +29,5 @@
     <string name="Setting">Setting</string>
     <string name="starttime">starttime</string>
     <string name="closetime">Close Time</string>
+    <string name="widgetTerm">Term(min)</string>
 </resources>

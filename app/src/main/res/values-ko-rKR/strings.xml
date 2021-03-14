@@ -29,4 +29,6 @@
     <string name="Setting">설정</string>
     <string name="starttime">시작시간</string>
     <string name="closetime">종료시간</string>
+    <string name="appwidget_text">휴일시계</string>
+    <string name="widgetTerm">갱신주기(분)</string>
 </resources>

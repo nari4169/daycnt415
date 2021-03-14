@@ -35,11 +35,13 @@ public class SettingActivity extends AppCompatActivity {
         editor = option.edit() ;
         binding.edStartTime.setText(option.getString("startTime", "18:00"));
         binding.edCloseTime.setText(option.getString("closeTime", "24:00"));
+        binding.editTermLength.setText(String.valueOf(option.getInt("term", 1))) ;
         binding.btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 editor.putString("startTime", binding.edStartTime.getText().toString());
                 editor.putString("closeTime", binding.edCloseTime.getText().toString());
+                editor.putInt("term", Integer.parseInt(binding.editTermLength.getText().toString().replaceAll("[^0-9]", "")));
                 editor.commit();
 
                 int[] ids = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), DayCntWidget.class));
