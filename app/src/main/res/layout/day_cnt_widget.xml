@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/ic_calendar_background"
+    android:background="@drawable/backgroud_border_40"
     android:orientation="vertical"
     android:padding="@dimen/widget_margin"
     android:theme="@style/ThemeOverlay.Daycnt311.AppWidgetContainer">
@@ -9,52 +9,129 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="2"
-        android:orientation="horizontal"
-        android:weightSum="10">
+        android:background="@drawable/backgroud_border_40"
+        android:orientation="vertical"
+        android:padding="5dp"
+        android:paddingStart="5dp"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="5dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="5dp"
+        android:weightSum="20">
 
-        <TextView
-            android:id="@+id/txtHourTerm1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="4"
-            android:fontFamily="@font/notosansbold"
-            android:gravity="center_horizontal|center_vertical"
-            android:textSize="18sp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="10"
+            android:orientation="horizontal"
+            android:weightSum="10">
 
-        <TextView
-            android:id="@+id/txtRate1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="6"
-            android:fontFamily="@font/notosansbold"
-            android:gravity="center_horizontal|center_vertical"
-            android:textSize="24sp" />
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:orientation="horizontal"
+                android:weightSum="10">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="2"
-        android:orientation="horizontal"
-        android:weightSum="10">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"></LinearLayout>
 
-        <TextView
-            android:id="@+id/txtDayToDay1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="6"
-            android:fontFamily="@font/notosansbold"
-            android:gravity="center_horizontal|center_vertical" />
+                <TextView
+                    android:id="@+id/txtHourTerm1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="6"
+                    android:autoSizeTextType="uniform"
+                    android:autoText="true"
+                    android:fontFamily="@font/notosansbold"
+                    android:gravity="right|center_horizontal|center_vertical"
+                    android:textSize="18sp" />
 
-        <ProgressBar
-            android:id="@+id/progressBar1"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|center_vertical"
-            android:layout_weight="4"
-            android:progressDrawable="@drawable/progress_style" />
+                <TextView
+                    android:id="@+id/textView12"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:autoSizeTextType="none"
+                    android:autoText="true"
+                    android:fontFamily="@font/notosansbold"
+                    android:gravity="bottom|center|center_horizontal|center_vertical"
+                    android:text="@string/hour"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:orientation="horizontal"
+                android:weightSum="10">
+
+                <TextView
+                    android:id="@+id/txtRate1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="7"
+                    android:autoSizeTextType="uniform"
+                    android:autoText="true"
+                    android:fontFamily="@font/notosansbold"
+                    android:gravity="right|center_horizontal|center_vertical"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:id="@+id/textView13"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:autoSizeTextType="none"
+                    android:autoText="true"
+                    android:fontFamily="@font/notosansbold"
+                    android:gravity="bottom|start|center_horizontal|center_vertical"
+                    android:text="@string/pencent"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="10"
+            android:orientation="horizontal"
+            android:weightSum="20">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"></LinearLayout>
+
+            <TextView
+                android:id="@+id/txtDayToDay1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="12"
+                android:autoSizeTextType="none"
+                android:autoText="false"
+                android:fontFamily="@font/notosansbold"
+                android:gravity="center_horizontal|center_vertical"
+                android:singleLine="true"
+                android:textSize="10sp" />
+
+            <ProgressBar
+                android:id="@+id/progressBar1"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:layout_weight="6"
+                android:progressDrawable="@drawable/progress_style" />
+        </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>

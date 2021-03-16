@@ -47,6 +47,18 @@ public class DBHandler extends RuntimeException {
         return rs ;
     }
 
+    public String getIsHoliday(String mDate) {
+        String isHoliday = "N";
+        StringBuffer sb = new StringBuffer();
+        sb.append(" select * from " + tableName + " " );
+        sb.append(" where mdate = '" + mDate.replaceAll("-","") + "' ");
+        Cursor rs = db.rawQuery(sb.toString(), null) ;
+        if (rs.moveToNext()) {
+            isHoliday = rs.getString(rs.getColumnIndex("isholiday"));
+        }
+        return isHoliday ;
+    }
+
     public String getBfDay(String mDate) {
         String isHoliday = "M";
         String bfDay = "";
@@ -59,14 +71,14 @@ public class DBHandler extends RuntimeException {
             if ("M".equals(isHoliday)) {
                 isHoliday = rs.getString(rs.getColumnIndex("isholiday"));
             }
-            Log.i(TAG, "bfDay=" + bfDay + " " + rs.getString(rs.getColumnIndex("mdate")) + " isHoliday=" + isHoliday) ;
+            //Log.i(TAG, "bfDay=" + bfDay + " " + rs.getString(rs.getColumnIndex("mdate")) + " isHoliday=" + isHoliday) ;
             if (!isHoliday.equals(rs.getString(rs.getColumnIndex("isholiday")))) {
                 bfDay = rs.getString(rs.getColumnIndex("mdate")) ;
                 break ;
             }
 
         }
-        Log.i(TAG, "Result bfDay =" + bfDay) ;
+        //Log.i(TAG, "Result bfDay =" + bfDay) ;
         return bfDay ;
     }
 
@@ -82,7 +94,7 @@ public class DBHandler extends RuntimeException {
             if ("M".equals(isHoliday)) {
                 isHoliday = rs.getString(rs.getColumnIndex("isholiday"));
             }
-            Log.i(TAG, "afDay=" + afDay + " " + rs.getString(rs.getColumnIndex("mdate")) + " isHoliday=" + isHoliday) ;
+            //Log.i(TAG, "afDay=" + afDay + " " + rs.getString(rs.getColumnIndex("mdate")) + " isHoliday=" + isHoliday) ;
             if (!isHoliday.equals(rs.getString(rs.getColumnIndex("isholiday")))) {
                 afDay = rs.getString(rs.getColumnIndex("mdate")) ;
                 isHoliday = rs.getString(rs.getColumnIndex("isholiday")) ;
@@ -96,13 +108,13 @@ public class DBHandler extends RuntimeException {
         sb.append(" order by mdate desc ");
         rs = db.rawQuery(sb.toString(), null) ;
         while (rs.moveToNext()) {
-            Log.i(TAG, "afDay=" + afDay + " " + rs.getString(rs.getColumnIndex("mdate")) + " isHoliday=" + isHoliday) ;
+            //Log.i(TAG, "afDay=" + afDay + " " + rs.getString(rs.getColumnIndex("mdate")) + " isHoliday=" + isHoliday) ;
             if (!isHoliday.equals(rs.getString(rs.getColumnIndex("isholiday")))) {
                 afDay = rs.getString(rs.getColumnIndex("mdate")) ;
                 break ;
             }
         }
-        Log.i(TAG, "Result afDay =" + afDay) ;
+        //Log.i(TAG, "Result afDay =" + afDay) ;
         return afDay ;
     }
 
@@ -132,4 +144,5 @@ public class DBHandler extends RuntimeException {
         _id = db.delete(tableName, " mdate = '" + mDate + "' " , null) ;
         return _id ;
     }
+
 }

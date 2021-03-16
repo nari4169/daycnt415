@@ -1,14 +1,13 @@
 package com.billcoreatech.daycnt311;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.TimePickerDialog;
-import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TimePicker;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.billcoreatech.daycnt311.databinding.ActivitySettingBinding;
 import com.billcoreatech.daycnt311.util.DayCntWidget;
@@ -23,6 +22,7 @@ public class SettingActivity extends AppCompatActivity {
     SharedPreferences.Editor editor ;
     int hour = 0 ;
     int min = 0 ;
+    String TAG = "SettingActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,17 +44,19 @@ public class SettingActivity extends AppCompatActivity {
                 editor.putInt("term", Integer.parseInt(binding.editTermLength.getText().toString().replaceAll("[^0-9]", "")));
                 editor.commit();
 
-                int[] ids = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), DayCntWidget.class));
-                DayCntWidget myWidget = new DayCntWidget();
-                myWidget.onUpdate(SettingActivity.this, AppWidgetManager.getInstance(SettingActivity.this),ids);
+//                int[] ids = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), DayCntWidget.class));
+//                DayCntWidget myWidget = new DayCntWidget();
+//                Intent intent = new Intent(SettingActivity.this, DayCntWidget.class);
+//                myWidget.onReceive(SettingActivity.this, intent);
 
                 finish();
             }
         });
 
-        binding.textView8.setOnClickListener(new View.OnClickListener() {
+        binding.edStartTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.i(TAG, "edStartTime") ;
                 Calendar cal = Calendar.getInstance() ;
                 hour = cal.get(Calendar.HOUR_OF_DAY);
                 min = cal.get(Calendar.MINUTE);
@@ -64,21 +66,27 @@ public class SettingActivity extends AppCompatActivity {
                         binding.edStartTime.setText(pad(hourOfDay) + ":" + pad(minute)) ;
                     }
                 },hour, min, true);
+                timePickerDialog.show();
             }
         });
 
-        binding.textView9.setOnClickListener(new View.OnClickListener() {
+        binding.edCloseTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.i(TAG, "edCloseTime") ;
                 Calendar cal = Calendar.getInstance() ;
                 hour = cal.get(Calendar.HOUR_OF_DAY);
                 min = cal.get(Calendar.MINUTE);
                 TimePickerDialog timePickerDialog = new TimePickerDialog(SettingActivity.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        if (hourOfDay == 0 && minute == 0) {
+                            hourOfDay = 24 ;
+                        }
                         binding.edCloseTime.setText(pad(hourOfDay) + ":" + pad(minute)) ;
                     }
                 },hour, min, true);
+                timePickerDialog.show();
             }
         });
     }

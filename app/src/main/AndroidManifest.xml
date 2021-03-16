@@ -9,11 +9,10 @@
         android:roundIcon="@mipmap/ic_calendar_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Daycnt311">
-        <activity android:name=".SettingActivity"></activity>
+        <activity android:name=".SettingActivity"/>
         <activity android:name=".dayManager.InitActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -33,7 +32,7 @@
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity"/>
     </application>
 
 </manifest>

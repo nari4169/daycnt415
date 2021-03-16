@@ -12,6 +12,8 @@ import java.util.Locale;
 
 public class StringUtil {
 
+    static String TAG = "StringUtil" ;
+
     public static String getToday() {
         long now = System.currentTimeMillis() ;
         Date date = new Date(now) ;
@@ -20,12 +22,11 @@ public class StringUtil {
     }
 
     public static long getTodayTerm1(Context context, String sD2) {
-        String TAG = "StringUtil" ;
 
         SharedPreferences option = context.getSharedPreferences("option", context.MODE_PRIVATE);
         String sTime = option.getString("startTime", "1800");
         String eTime = option.getString("closeTime", "2400");
-        Log.i(TAG, "getTimeTerm sTime=" + sTime + " eTime=" + eTime);
+        //Log.i(TAG, "getTimeTerm sTime=" + sTime + " eTime=" + eTime);
 
         long sec = 0 ;
         SimpleDateFormat f = new SimpleDateFormat("yyyyMMdd HHmm", Locale.KOREA);
@@ -35,7 +36,7 @@ public class StringUtil {
             Date d1 = f.parse(f.format(date));
             Date d2 = f.parse(sD2 + " " + sTime.replaceAll(":",""));
             long diff = d1.getTime() - d2.getTime();
-            sec = diff / 1000 / 60 / 60;
+            sec = diff / 1000 / 60;
         } catch (Exception e) {
 
         }
@@ -44,19 +45,17 @@ public class StringUtil {
 
     public static long getTimeTerm(Context context, String sD1, String sD2) {
 
-        String TAG = "StringUtil" ;
-
         SharedPreferences option = context.getSharedPreferences("option", context.MODE_PRIVATE);
         String sTime = option.getString("startTime", "1800");
         String eTime = option.getString("closeTime", "2400");
-        Log.i(TAG, "getTimeTerm sTime=" + sTime + " eTime=" + eTime);
+        //Log.i(TAG, "getTimeTerm sTime=" + sTime + " eTime=" + eTime);
         long sec = 0 ;
         SimpleDateFormat f = new SimpleDateFormat("yyyyMMdd HHmm", Locale.KOREA);
         try {
             Date d1 = f.parse(sD1 + " " + eTime.replaceAll(":",""));
             Date d2 = f.parse(sD2 + " " + sTime.replaceAll(":",""));
             long diff = d1.getTime() - d2.getTime();
-            sec = diff / 1000 / 60 / 60;
+            sec = diff / 1000 / 60;
         } catch (Exception e) {
 
         }

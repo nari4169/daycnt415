@@ -1,8 +1,6 @@
 package com.billcoreatech.daycnt311;
 
 import android.app.AlertDialog;
-import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -28,7 +26,6 @@ import com.billcoreatech.daycnt311.databinding.ActivityMainBinding;
 import com.billcoreatech.daycnt311.databinding.DayinfoitemBinding;
 import com.billcoreatech.daycnt311.databinding.PopupWindowBinding;
 import com.billcoreatech.daycnt311.dayManager.DayinfoBean;
-import com.billcoreatech.daycnt311.util.DayCntWidget;
 import com.billcoreatech.daycnt311.util.GridAdapter;
 import com.billcoreatech.daycnt311.util.Holidays;
 import com.billcoreatech.daycnt311.util.StringUtil;
@@ -138,9 +135,9 @@ public class MainActivity extends AppCompatActivity {
                                 dbHandler.close();
                                 getDispMonth(pDate);
 
-                                int[] ids = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), DayCntWidget.class));
-                                DayCntWidget myWidget = new DayCntWidget();
-                                myWidget.onUpdate(MainActivity.this, AppWidgetManager.getInstance(MainActivity.this),ids);
+//                                int[] ids = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), DayCntWidget.class));
+//                                DayCntWidget myWidget = new DayCntWidget();
+//                                myWidget.onUpdate(MainActivity.this, AppWidgetManager.getInstance(MainActivity.this),ids);
                             }
                         })
                         .setNegativeButton(getString(R.string.close), null);
@@ -192,17 +189,22 @@ public class MainActivity extends AppCompatActivity {
         dbHandler = DBHandler.open(getApplicationContext()) ;
         String bfDay = dbHandler.getBfDay(mDate);
         String afDay = dbHandler.getAfDay(mDate);
+        String isHoliday = dbHandler.getIsHoliday(mDate);
         dbHandler.close();
 
         Log.i(TAG, "bfDay=" + bfDay + " afDay=" + afDay);
         String sTime = option.getString("startTime", "18:00");
         String eTime = option.getString("closeTime", "24:00");
+        if ("N".equals(isHoliday)) {
+            sTime = option.getString("closeTime", "24:00");
+            eTime = option.getString("startTime", "18:00");
+        }
 
         binding.txtDayToDay.setText(strUtil.getDispDay(bfDay) + " " + sTime + " ~ "
                 + strUtil.getDispDay(afDay) + " " + eTime) ;
         double b = strUtil.getTimeTerm(getApplicationContext(), afDay, bfDay);
         double j = strUtil.getTodayTerm1(getApplicationContext(), bfDay);
-        binding.txtHourTerm.setText(String.valueOf(Math.round(j)) + "/" + String.valueOf(Math.round(b)) + " Hour") ;
+        binding.txtHourTerm.setText(String.valueOf(Math.round(j / 60)) + "/" + String.valueOf(Math.round(b / 60)) + " Hour") ;
         binding.txtRate.setText(String.format("%.2f", j / b * 100) + "%");
         binding.progressBar.setMax(100);
         binding.progressBar.setProgress((int) Math.round(j / b * 100));
