@@ -30,6 +30,6 @@
     <string name="starttime">starttime</string>
     <string name="closetime">Close Time</string>
     <string name="widgetTerm">Term(min)</string>
-    <string name="hour" translatable="false">Hour</string>
+    <string name="hour">Hour</string>
     <string name="pencent" translatable="false">%</string>
 </resources>
