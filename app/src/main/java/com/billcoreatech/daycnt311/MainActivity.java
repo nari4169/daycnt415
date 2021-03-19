@@ -186,13 +186,13 @@ public class MainActivity extends AppCompatActivity {
     public void getDispMonth(Date pDate) {
 
         String mDate = strUtil.getToday();
+
         dbHandler = DBHandler.open(getApplicationContext()) ;
         String bfDay = dbHandler.getBfDay(mDate);
         String afDay = dbHandler.getAfDay(mDate);
         String isHoliday = dbHandler.getIsHoliday(mDate);
         dbHandler.close();
 
-        Log.i(TAG, "bfDay=" + bfDay + " afDay=" + afDay);
         String sTime = option.getString("startTime", "18:00");
         String eTime = option.getString("closeTime", "24:00");
         if ("N".equals(isHoliday)) {
@@ -200,10 +200,41 @@ public class MainActivity extends AppCompatActivity {
             eTime = option.getString("startTime", "18:00");
         }
 
+        Log.i(TAG, "bfDay=" + bfDay + " " + sTime + " afDay=" + afDay + " " + eTime);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd HH:mm") ;
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyyMMdd") ;
+        try {
+            Date endTime = sdf.parse(afDay + " " + eTime);
+            long endTimeValue = endTime.getTime() ;
+            long now = System.currentTimeMillis() ;
+            dbHandler = DBHandler.open(getApplicationContext()) ;
+            String ckDay = sdf1.format(now) ;
+            /**
+             * 끝나는 날 : 끝나는 시간이 지나갔는지 확인하고 지나갔으면 평일/휴일을 변경해 주어야 함.
+             */
+            Log.i(TAG, "bfDay = 시간이 지나갔나 ??? " + endTimeValue + " " + now + " " + afDay + " " + ckDay) ;
+            if (endTimeValue < now && afDay.equals(ckDay)) {
+                mDate = dbHandler.getTomorrow(mDate);
+                bfDay = dbHandler.getBfDay(mDate) ;
+                afDay = dbHandler.getAfDay(mDate) ;
+                isHoliday = dbHandler.getIsHoliday(mDate) ;
+                sTime = option.getString("startTime", "18:00");
+                eTime = option.getString("closeTime", "24:00");
+                if ("N".equals(isHoliday)) {
+                    sTime = option.getString("closeTime", "24:00");
+                    eTime = option.getString("startTime", "18:00");
+                }
+            }
+            dbHandler.close();
+
+        } catch (Exception e) {
+
+        }
+
         binding.txtDayToDay.setText(strUtil.getDispDay(bfDay) + " " + sTime + " ~ "
                 + strUtil.getDispDay(afDay) + " " + eTime) ;
-        double b = strUtil.getTimeTerm(getApplicationContext(), afDay, bfDay);
-        double j = strUtil.getTodayTerm1(getApplicationContext(), bfDay);
+        double b = strUtil.getTimeTerm(getApplicationContext(), afDay, eTime, bfDay, sTime);
+        double j = strUtil.getTodayTerm1(getApplicationContext(), bfDay, sTime);
         binding.txtHourTerm.setText(String.valueOf(Math.round(j / 60)) + "/" + String.valueOf(Math.round(b / 60)) + " Hour") ;
         binding.txtRate.setText(String.format("%.2f", j / b * 100) + "%");
         binding.progressBar.setMax(100);

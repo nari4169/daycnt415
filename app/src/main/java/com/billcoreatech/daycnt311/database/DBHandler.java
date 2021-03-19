@@ -145,4 +145,17 @@ public class DBHandler extends RuntimeException {
         return _id ;
     }
 
+    public String getTomorrow(String mDate) {
+
+        String afDay = "";
+        StringBuffer sb = new StringBuffer();
+        sb.append(" select * from " + tableName + " " );
+        sb.append(" where mdate > '" + mDate.replaceAll("-","") + "' ");
+        sb.append(" order by mdate ");
+        Cursor rs = db.rawQuery(sb.toString(), null) ;
+        if (rs.moveToNext()) {
+            afDay = rs.getString(rs.getColumnIndex("mdate")) ;
+        }
+        return afDay ;
+    }
 }

@@ -15,7 +15,9 @@ import android.widget.RemoteViews;
 import com.billcoreatech.daycnt311.R;
 import com.billcoreatech.daycnt311.database.DBHandler;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Implementation of App Widget functionality.
@@ -101,9 +103,41 @@ public class DayCntWidget extends AppWidgetProvider {
             sTime = option.getString("closeTime", "24:00");
             eTime = option.getString("startTime", "18:00");
         }
+
+        Log.i(TAG, "bfDay=" + bfDay + " " + sTime + " afDay=" + afDay + " " + eTime);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd HH:mm") ;
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyyMMdd") ;
+        try {
+            Date endTime = sdf.parse(afDay + " " + eTime);
+            long endTimeValue = endTime.getTime() ;
+            long now = System.currentTimeMillis() ;
+            dbHandler = DBHandler.open(context) ;
+            String ckDay = sdf1.format(now) ;
+            /**
+             * 끝나는 날 : 끝나는 시간이 지나갔는지 확인하고 지나갔으면 평일/휴일을 변경해 주어야 함.
+             */
+            Log.i(TAG, "bfDay = 날자가 지나갔나 ??? " + endTimeValue + " " + now) ;
+            if (endTimeValue < now && afDay.equals(ckDay)) {
+                mDate = dbHandler.getTomorrow(mDate);
+                bfDay = dbHandler.getBfDay(mDate) ;
+                afDay = dbHandler.getAfDay(mDate) ;
+                isHoliday = dbHandler.getIsHoliday(mDate) ;
+                sTime = option.getString("startTime", "18:00");
+                eTime = option.getString("closeTime", "24:00");
+                if ("N".equals(isHoliday)) {
+                    sTime = option.getString("closeTime", "24:00");
+                    eTime = option.getString("startTime", "18:00");
+                }
+            }
+            dbHandler.close();
+
+        } catch (Exception e) {
+
+        }
+
         views.setTextViewText(R.id.txtDayToDay1, StringUtil.getDispDay(bfDay) + " " + sTime + " ~ " + StringUtil.getDispDay(afDay) + " " + eTime);
-        double b = StringUtil.getTimeTerm(context, afDay, bfDay);
-        double j = StringUtil.getTodayTerm1(context, bfDay);
+        double b = StringUtil.getTimeTerm(context, afDay, eTime, bfDay, sTime);
+        double j = StringUtil.getTodayTerm1(context, bfDay, sTime);
         views.setTextViewText(R.id.txtHourTerm1, String.valueOf(Math.round(j / 60)) + "/" + String.valueOf(Math.round(b / 60)));
         views.setTextViewText(R.id.txtRate1, String.format("%.2f", j / b * 100));
         views.setProgressBar(R.id.progressBar1, 100, (int) Math.round(j / b * 100), false);

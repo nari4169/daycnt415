@@ -21,12 +21,7 @@ public class StringUtil {
         return sdf.format(date) ;
     }
 
-    public static long getTodayTerm1(Context context, String sD2) {
-
-        SharedPreferences option = context.getSharedPreferences("option", context.MODE_PRIVATE);
-        String sTime = option.getString("startTime", "1800");
-        String eTime = option.getString("closeTime", "2400");
-        //Log.i(TAG, "getTimeTerm sTime=" + sTime + " eTime=" + eTime);
+    public static long getTodayTerm1(Context context, String sD2, String sTime) {
 
         long sec = 0 ;
         SimpleDateFormat f = new SimpleDateFormat("yyyyMMdd HHmm", Locale.KOREA);
@@ -43,12 +38,8 @@ public class StringUtil {
         return sec  ;
     }
 
-    public static long getTimeTerm(Context context, String sD1, String sD2) {
+    public static long getTimeTerm(Context context, String sD1, String eTime, String sD2, String sTime) {
 
-        SharedPreferences option = context.getSharedPreferences("option", context.MODE_PRIVATE);
-        String sTime = option.getString("startTime", "1800");
-        String eTime = option.getString("closeTime", "2400");
-        //Log.i(TAG, "getTimeTerm sTime=" + sTime + " eTime=" + eTime);
         long sec = 0 ;
         SimpleDateFormat f = new SimpleDateFormat("yyyyMMdd HHmm", Locale.KOREA);
         try {
