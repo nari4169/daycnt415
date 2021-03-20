@@ -4,10 +4,11 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.SystemClock;
 import android.util.Log;
 import android.widget.RemoteViews;
@@ -16,7 +17,6 @@ import com.billcoreatech.daycnt311.R;
 import com.billcoreatech.daycnt311.database.DBHandler;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -135,6 +135,97 @@ public class DayCntWidget extends AppWidgetProvider {
 
         }
 
+        int progress = option.getInt("transparent", 100);
+        switch (Math.floorDiv(progress, 10)) {
+            case 10: views.setInt(R.id.layout1, "setBackgroundResource", R.drawable.backgroud_border_10);
+                views.setInt(R.id.layout2, "setBackgroundResource", R.drawable.backgroud_border_10);
+                views.setTextColor(R.id.txtDayToDay1, context.getColor(R.color.black));
+                views.setTextColor(R.id.txtHourTerm1, context.getColor(R.color.black));
+                views.setTextColor(R.id.txtRate1, context.getColor(R.color.black));
+                views.setTextColor(R.id.textView12, context.getColor(R.color.black));
+                views.setTextColor(R.id.textView13, context.getColor(R.color.black));
+            break ;
+            case 9: views.setInt(R.id.layout1, "setBackgroundResource", R.drawable.backgroud_border_9);
+                views.setInt(R.id.layout2, "setBackgroundResource", R.drawable.backgroud_border_9);
+                views.setTextColor(R.id.txtDayToDay1, context.getColor(R.color.black));
+                views.setTextColor(R.id.txtHourTerm1, context.getColor(R.color.black));
+                views.setTextColor(R.id.txtRate1, context.getColor(R.color.black));
+                views.setTextColor(R.id.textView12, context.getColor(R.color.black));
+                views.setTextColor(R.id.textView13, context.getColor(R.color.black));
+                break ;
+            case 8: views.setInt(R.id.layout1, "setBackgroundResource", R.drawable.backgroud_border_8);
+                views.setInt(R.id.layout2, "setBackgroundResource", R.drawable.backgroud_border_8);
+                views.setTextColor(R.id.txtDayToDay1, context.getColor(R.color.black));
+                views.setTextColor(R.id.txtHourTerm1, context.getColor(R.color.black));
+                views.setTextColor(R.id.txtRate1, context.getColor(R.color.black));
+                views.setTextColor(R.id.textView12, context.getColor(R.color.black));
+                views.setTextColor(R.id.textView13, context.getColor(R.color.black));
+                break ;
+            case 7: views.setInt(R.id.layout1, "setBackgroundResource", R.drawable.backgroud_border_7);
+                views.setInt(R.id.layout2, "setBackgroundResource", R.drawable.backgroud_border_7);
+                views.setTextColor(R.id.txtDayToDay1, context.getColor(R.color.black));
+                views.setTextColor(R.id.txtHourTerm1, context.getColor(R.color.black));
+                views.setTextColor(R.id.txtRate1, context.getColor(R.color.black));
+                views.setTextColor(R.id.textView12, context.getColor(R.color.black));
+                views.setTextColor(R.id.textView13, context.getColor(R.color.black));
+                break ;
+            case 6: views.setInt(R.id.layout1, "setBackgroundResource", R.drawable.backgroud_border_6);
+                views.setInt(R.id.layout2, "setBackgroundResource", R.drawable.backgroud_border_6);
+                views.setTextColor(R.id.txtDayToDay1, context.getColor(R.color.black));
+                views.setTextColor(R.id.txtHourTerm1, context.getColor(R.color.black));
+                views.setTextColor(R.id.txtRate1, context.getColor(R.color.black));
+                views.setTextColor(R.id.textView12, context.getColor(R.color.black));
+                views.setTextColor(R.id.textView13, context.getColor(R.color.black));
+                break ;
+            case 5: views.setInt(R.id.layout1, "setBackgroundResource", R.drawable.backgroud_border_5);
+                views.setInt(R.id.layout2, "setBackgroundResource", R.drawable.backgroud_border_5);
+                views.setTextColor(R.id.txtDayToDay1, context.getColor(R.color.softblue));
+                views.setTextColor(R.id.txtHourTerm1, context.getColor(R.color.softblue));
+                views.setTextColor(R.id.txtRate1, context.getColor(R.color.softblue));
+                views.setTextColor(R.id.textView12, context.getColor(R.color.softblue));
+                views.setTextColor(R.id.textView13, context.getColor(R.color.softblue));
+                break ;
+            case 4: views.setInt(R.id.layout1, "setBackgroundResource", R.drawable.backgroud_border_4);
+                views.setInt(R.id.layout2, "setBackgroundResource", R.drawable.backgroud_border_4);
+                views.setTextColor(R.id.txtDayToDay1, context.getColor(R.color.softblue));
+                views.setTextColor(R.id.txtHourTerm1, context.getColor(R.color.softblue));
+                views.setTextColor(R.id.txtRate1, context.getColor(R.color.softblue));
+                views.setTextColor(R.id.textView12, context.getColor(R.color.softblue));
+                views.setTextColor(R.id.textView13, context.getColor(R.color.softblue));
+                break ;
+            case 3: views.setInt(R.id.layout1, "setBackgroundResource", R.drawable.backgroud_border_3);
+                views.setInt(R.id.layout2, "setBackgroundResource", R.drawable.backgroud_border_3);
+                views.setTextColor(R.id.txtDayToDay1, context.getColor(R.color.softblue));
+                views.setTextColor(R.id.txtHourTerm1, context.getColor(R.color.softblue));
+                views.setTextColor(R.id.txtRate1, context.getColor(R.color.softblue));
+                views.setTextColor(R.id.textView12, context.getColor(R.color.softblue));
+                views.setTextColor(R.id.textView13, context.getColor(R.color.softblue));
+                break ;
+            case 2: views.setInt(R.id.layout1, "setBackgroundResource", R.drawable.backgroud_border_2);
+                views.setInt(R.id.layout2, "setBackgroundResource", R.drawable.backgroud_border_2);
+                views.setInt(R.id.txtDayToDay1, "setTextColor", R.color.white);
+                views.setInt(R.id.txtHourTerm1, "setTextColor", R.color.white);
+                views.setInt(R.id.txtRate1, "setTextColor", R.color.white);
+                views.setTextColor(R.id.textView12, context.getColor(R.color.white));
+                views.setTextColor(R.id.textView13, context.getColor(R.color.white));
+                break ;
+            case 1: views.setInt(R.id.layout1, "setBackgroundResource", R.drawable.backgroud_border_1);
+                views.setInt(R.id.layout2, "setBackgroundResource", R.drawable.backgroud_border_1);
+                views.setTextColor(R.id.txtDayToDay1, context.getColor(R.color.white));
+                views.setTextColor(R.id.txtHourTerm1, context.getColor(R.color.white));
+                views.setTextColor(R.id.txtRate1, context.getColor(R.color.white));
+                views.setTextColor(R.id.textView12, context.getColor(R.color.white));
+                views.setTextColor(R.id.textView13, context.getColor(R.color.white));
+                break ;
+            case 0: views.setInt(R.id.layout1, "setBackgroundResource", R.drawable.backgroud_border_0);
+                views.setInt(R.id.layout2, "setBackgroundResource", R.drawable.backgroud_border_0);
+                views.setTextColor(R.id.txtDayToDay1, context.getColor(R.color.white));
+                views.setTextColor(R.id.txtHourTerm1, context.getColor(R.color.white));
+                views.setTextColor(R.id.txtRate1, context.getColor(R.color.white));
+                views.setTextColor(R.id.textView12, context.getColor(R.color.white));
+                views.setTextColor(R.id.textView13, context.getColor(R.color.white));
+                break ;
+        }
         views.setTextViewText(R.id.txtDayToDay1, StringUtil.getDispDay(bfDay) + " " + sTime + " ~ " + StringUtil.getDispDay(afDay) + " " + eTime);
         double b = StringUtil.getTimeTerm(context, afDay, eTime, bfDay, sTime);
         double j = StringUtil.getTodayTerm1(context, bfDay, sTime);
@@ -143,6 +234,12 @@ public class DayCntWidget extends AppWidgetProvider {
         views.setProgressBar(R.id.progressBar1, 100, (int) Math.round(j / b * 100), false);
         Log.i(TAG, "rate=" + String.format("%.2f", j / b * 100)) ;
 
+    }
+
+    public static Drawable GetDrawable(int drawableResId, int color, Context context) {
+        Drawable drawable =  context.getResources().getDrawable(drawableResId);
+        drawable.setColorFilter(color, PorterDuff.Mode.SRC_IN);
+        return drawable;
     }
 
     @Override

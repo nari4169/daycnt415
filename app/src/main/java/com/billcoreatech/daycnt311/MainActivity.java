@@ -134,10 +134,6 @@ public class MainActivity extends AppCompatActivity {
                                 );
                                 dbHandler.close();
                                 getDispMonth(pDate);
-
-//                                int[] ids = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), DayCntWidget.class));
-//                                DayCntWidget myWidget = new DayCntWidget();
-//                                myWidget.onUpdate(MainActivity.this, AppWidgetManager.getInstance(MainActivity.this),ids);
                             }
                         })
                         .setNegativeButton(getString(R.string.close), null);

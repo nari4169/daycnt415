@@ -2,11 +2,14 @@ package com.billcoreatech.daycnt311;
 
 import android.app.TimePickerDialog;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.SeekBar;
 import android.widget.TimePicker;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.billcoreatech.daycnt311.databinding.ActivitySettingBinding;
@@ -36,18 +39,18 @@ public class SettingActivity extends AppCompatActivity {
         binding.edStartTime.setText(option.getString("startTime", "18:00"));
         binding.edCloseTime.setText(option.getString("closeTime", "24:00"));
         binding.editTermLength.setText(String.valueOf(option.getInt("term", 1))) ;
+        binding.seekTransparent.setMax(100);
+        binding.seekTransparent.setProgress(option.getInt("transparent", 100));
+        binding.progressTextView.setText(option.getInt("transparent", 100) + "%");
+        doSeekProgressDisp(option.getInt("transparent", 100));
         binding.btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 editor.putString("startTime", binding.edStartTime.getText().toString());
                 editor.putString("closeTime", binding.edCloseTime.getText().toString());
                 editor.putInt("term", Integer.parseInt(binding.editTermLength.getText().toString().replaceAll("[^0-9]", "")));
+                editor.putInt("transparent", binding.seekTransparent.getProgress());
                 editor.commit();
-
-//                int[] ids = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), DayCntWidget.class));
-//                DayCntWidget myWidget = new DayCntWidget();
-//                Intent intent = new Intent(SettingActivity.this, DayCntWidget.class);
-//                myWidget.onReceive(SettingActivity.this, intent);
 
                 finish();
             }
@@ -89,6 +92,53 @@ public class SettingActivity extends AppCompatActivity {
                 timePickerDialog.show();
             }
         });
+
+        binding.seekTransparent.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                Log.i(TAG, "progress=" + progress) ;
+                doSeekProgressDisp(progress) ;
+                binding.progressTextView.setText(progress + "%");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+    }
+
+    private void doSeekProgressDisp(int progress) {
+        switch (Math.floorDiv(progress, 10)) {
+            case 10: binding.transparentTest.setBackgroundColor(getColor(R.color.white100));
+                break ;
+            case 9: binding.transparentTest.setBackgroundColor(getColor(R.color.white90));
+                break ;
+            case 8: binding.transparentTest.setBackgroundColor(getColor(R.color.white80));
+                break ;
+            case 7: binding.transparentTest.setBackgroundColor(getColor(R.color.white70));
+                break ;
+            case 6: binding.transparentTest.setBackgroundColor(getColor(R.color.white60));
+                break ;
+            case 5: binding.transparentTest.setBackgroundColor(getColor(R.color.white50));
+                break ;
+            case 4: binding.transparentTest.setBackgroundColor(getColor(R.color.white40));
+                break ;
+            case 3: binding.transparentTest.setBackgroundColor(getColor(R.color.white30));
+                break ;
+            case 2: binding.transparentTest.setBackgroundColor(getColor(R.color.white20));
+                break ;
+            case 1: binding.transparentTest.setBackgroundColor(getColor(R.color.white10));
+                break ;
+            case 0: binding.transparentTest.setBackgroundColor(getColor(R.color.white00));
+                break ;
+        }
     }
 
     private String pad(int pValue) {

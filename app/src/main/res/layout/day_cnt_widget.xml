@@ -1,4 +1,5 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/backgroud_border_40"
@@ -7,9 +8,9 @@
     android:theme="@style/ThemeOverlay.Daycnt311.AppWidgetContainer">
 
     <LinearLayout
+        android:id="@+id/layout2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/backgroud_border_40"
         android:orientation="vertical"
         android:padding="5dp"
         android:paddingStart="5dp"
@@ -80,7 +81,7 @@
                     android:autoText="true"
                     android:fontFamily="@font/notosansbold"
                     android:gravity="right|center_horizontal|center_vertical"
-                    android:textSize="24sp" />
+                    android:textSize="30sp" />
 
                 <TextView
                     android:id="@+id/textView13"
@@ -134,4 +135,4 @@
 
     </LinearLayout>
 
-</LinearLayout>
+</FrameLayout>

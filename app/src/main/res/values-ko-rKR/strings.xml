@@ -32,4 +32,5 @@
     <string name="appwidget_text">휴일시계</string>
     <string name="widgetTerm">갱신주기(분)</string>
     <string name="hour">시간</string>
+    <string name="transparent">투명도</string>
 </resources>
