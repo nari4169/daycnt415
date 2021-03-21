@@ -29,6 +29,10 @@ import com.billcoreatech.daycnt311.dayManager.DayinfoBean;
 import com.billcoreatech.daycnt311.util.GridAdapter;
 import com.billcoreatech.daycnt311.util.Holidays;
 import com.billcoreatech.daycnt311.util.StringUtil;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -69,6 +73,14 @@ public class MainActivity extends AppCompatActivity {
         curMonthFormat = new SimpleDateFormat("MM") ;
         detector = new GestureDetectorCompat(this, new MyGestureListener());
         strUtil = new StringUtil();
+
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+        AdRequest adRequest = new AdRequest.Builder().build();
+        binding.adView.loadAd(adRequest);
 
         binding.gridView.setOnTouchListener(new View.OnTouchListener() {
             @Override

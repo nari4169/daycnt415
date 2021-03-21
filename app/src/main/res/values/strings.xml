@@ -33,4 +33,6 @@
     <string name="hour">Hour</string>
     <string name="pencent" translatable="false">%</string>
     <string name="transparent">Transparent</string>
+    <string name="adunitid" translatable="false">ca-app-pub-5706840078904135/4592043980</string>
+    <string name="adunitid_test" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
 </resources>

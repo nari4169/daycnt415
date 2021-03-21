@@ -118,7 +118,8 @@
                 android:background="@color/softred"
                 android:fontFamily="@font/notosansbold"
                 android:gravity="center_horizontal|center_vertical"
-                android:text="@string/labelSun" />
+                android:text="@string/labelSun"
+                android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/textView2"
@@ -178,7 +179,8 @@
                 android:background="@color/softblue"
                 android:fontFamily="@font/notosansbold"
                 android:gravity="center_horizontal|center_vertical"
-                android:text="@string/labelSat" />
+                android:text="@string/labelSat"
+                android:textColor="@color/white" />
         </LinearLayout>
 
         <com.billcoreatech.daycnt311.util.MyGridView
@@ -193,5 +195,14 @@
         </com.billcoreatech.daycnt311.util.MyGridView>
 
     </LinearLayout>
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        app:adSize="BANNER"
+        app:adUnitId="@string/adunitid"></com.google.android.gms.ads.AdView>
 
 </LinearLayout>
