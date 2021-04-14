@@ -129,7 +129,8 @@
                 android:background="@color/light_blue_50"
                 android:fontFamily="@font/notosansbold"
                 android:gravity="center_horizontal|center_vertical"
-                android:text="@string/labelMon" />
+                android:text="@string/labelMon"
+                android:textColor="@color/light_blue_500" />
 
             <TextView
                 android:id="@+id/textView3"
@@ -139,7 +140,8 @@
                 android:background="@color/light_blue_50"
                 android:fontFamily="@font/notosansbold"
                 android:gravity="center_horizontal|center_vertical"
-                android:text="@string/labelTue" />
+                android:text="@string/labelTue"
+                android:textColor="@color/light_blue_500" />
 
             <TextView
                 android:id="@+id/textView4"
@@ -149,7 +151,8 @@
                 android:background="@color/light_blue_50"
                 android:fontFamily="@font/notosansbold"
                 android:gravity="center_horizontal|center_vertical"
-                android:text="@string/labelWed" />
+                android:text="@string/labelWed"
+                android:textColor="@color/light_blue_500" />
 
             <TextView
                 android:id="@+id/textView5"
@@ -159,7 +162,8 @@
                 android:background="@color/light_blue_50"
                 android:fontFamily="@font/notosansbold"
                 android:gravity="center_horizontal|center_vertical"
-                android:text="@string/labelThu" />
+                android:text="@string/labelThu"
+                android:textColor="@color/light_blue_500" />
 
             <TextView
                 android:id="@+id/textView6"
@@ -169,7 +173,8 @@
                 android:background="@color/light_blue_50"
                 android:fontFamily="@font/notosansbold"
                 android:gravity="center_horizontal|center_vertical"
-                android:text="@string/labelFri" />
+                android:text="@string/labelFri"
+                android:textColor="@color/light_blue_500" />
 
             <TextView
                 android:id="@+id/textView7"
@@ -183,7 +188,7 @@
                 android:textColor="@color/white" />
         </LinearLayout>
 
-        <com.billcoreatech.daycnt311.util.MyGridView
+        <com.billcoreatech.daycnt415.util.MyGridView
             android:id="@+id/gridView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -192,7 +197,7 @@
             android:listSelector="@drawable/gridview_selector"
             android:numColumns="7">
 
-        </com.billcoreatech.daycnt311.util.MyGridView>
+        </com.billcoreatech.daycnt415.util.MyGridView>
 
     </LinearLayout>
 

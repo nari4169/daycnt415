@@ -26,7 +26,7 @@
         android:orientation="vertical"
         android:weightSum="7">
 
-        <com.billcoreatech.daycnt311.util.MarqueeTextView
+        <com.billcoreatech.daycnt415.util.MarqueeTextView
             android:id="@+id/tv1"
             android:layout_width="match_parent"
             android:layout_height="0dp"

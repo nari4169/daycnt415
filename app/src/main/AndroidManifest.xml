@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.billcoreatech.daycnt311">
+    package="com.billcoreatech.daycnt415">
+
+    <uses-permission android:name="com.android.vending.BILLING"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
@@ -9,15 +12,15 @@
         android:roundIcon="@mipmap/ic_calendar_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Daycnt311">
-        <activity android:name=".SettingActivity"/>
-        <activity android:name=".dayManager.InitActivity">
+        <activity android:name="com.billcoreatech.daycnt415.SettingActivity" />
+        <activity android:name="com.billcoreatech.daycnt415.dayManager.InitActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <receiver android:name=".util.DayCntWidget">
+        <receiver android:name="com.billcoreatech.daycnt415.util.DayCntWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -27,15 +30,16 @@
                 android:resource="@xml/day_cnt_widget_info" />
         </receiver>
 
-        <activity android:name=".util.DayCntWidgetConfigureActivity">
+        <activity android:name="com.billcoreatech.daycnt415.util.DayCntWidgetConfigureActivity">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"/>
+        <activity android:name="com.billcoreatech.daycnt415.MainActivity" />
+
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-5706840078904135~3750284341"/>
+            android:value="ca-app-pub-5706840078904135~3750284341" />
     </application>
 
 </manifest>
