@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     DayinfoitemBinding dayInfoBinding;
     String TAG = "MainActivity" ;
     SharedPreferences option ;
+    SharedPreferences.Editor editor ;
     StringUtil strUtil ;
     GridAdapter gridAdapter ;
     private final long FINISH_INTERVAL_TIME = 2000;
@@ -60,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
     SimpleDateFormat curMonthFormat ;
     private GestureDetectorCompat detector;
     Date pDate ;
+    SimpleDateFormat sdf ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +70,20 @@ public class MainActivity extends AppCompatActivity {
         View view = binding.getRoot() ;
         setContentView(view);
         option = getSharedPreferences("option", MODE_PRIVATE);
+        if (option.getBoolean("isBill", false)) {
+            binding.adView.setVisibility(View.GONE);
+        }
+        /**
+         * 설치한 첫날은 그냥 적용을 시작한다.
+         */
+        sdf = new SimpleDateFormat("yyyyMMdd");
+        long oldDate = option.getLong("billTimeStamp", System.currentTimeMillis());
+        if (sdf.format(new Date(System.currentTimeMillis())).equals(sdf.format(new Date(oldDate)))) {
+            editor = option.edit();
+            editor.putLong("billTimeStamp", System.currentTimeMillis());
+            editor.putBoolean("isBill", false);
+            editor.commit();
+        }
         dayinfoLists = new ArrayList<>();
         holidays = new ArrayList<>() ;
         curYearFormat = new SimpleDateFormat("yyyy") ;

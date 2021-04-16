@@ -1,6 +1,7 @@
 package com.billcoreatech.daycnt415.util;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -23,6 +24,7 @@ public class KakaoToast {
 
     static private AdView mAdView;
     static String TAG = "KakaoToast";
+    static SharedPreferences option ;
 
     public static Toast makeToast(Context context, String body, int duration){
         LayoutInflater inflater;
@@ -30,12 +32,13 @@ public class KakaoToast {
         View v = inflater.inflate(R.layout.view_toast, null);
         TextView text = v.findViewById(R.id.message);
         text.setText(body);
-
-        MobileAds.initialize(context);
         mAdView = v.findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
-
+        option = context.getSharedPreferences("option", context.MODE_PRIVATE);
+        if (!option.getBoolean("isBill", false)) {
+            MobileAds.initialize(context);
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mAdView.loadAd(adRequest);
+        }
         mAdView.setAdListener(new AdListener(){
             @Override
             public void onAdLoaded() {

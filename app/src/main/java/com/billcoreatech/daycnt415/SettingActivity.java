@@ -49,6 +49,9 @@ public class SettingActivity extends AppCompatActivity {
         billingManager = new BillingManager(SettingActivity.this);
 
         option = getSharedPreferences("option", MODE_PRIVATE);
+        if (option.getBoolean("isBill", false)) {
+            binding.adView.setVisibility(View.GONE);
+        }
         editor = option.edit() ;
         binding.edStartTime.setText(option.getString("startTime", "18:00"));
         binding.edCloseTime.setText(option.getString("closeTime", "24:00"));

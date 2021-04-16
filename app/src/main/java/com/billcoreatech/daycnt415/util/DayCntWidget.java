@@ -39,6 +39,7 @@ public class DayCntWidget extends AppWidgetProvider {
         super.onReceive(context, intent);
         action = intent.getAction() ;
         SharedPreferences option = context.getSharedPreferences("option", context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = option.edit();
         WIDGET_UPDATE_INTERVAL = option.getInt("term", 60000) * 60000;
         Log.i(TAG, "onReceive -------------" + WIDGET_UPDATE_INTERVAL) ;
         if (action == null) {
@@ -52,8 +53,22 @@ public class DayCntWidget extends AppWidgetProvider {
             mManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             mManager.set(AlarmManager.ELAPSED_REALTIME, nexttime, pendingIntent);
 
-            KakaoToast.makeToast(context, context.getString(R.string.msgAdView), Toast.LENGTH_LONG).show();
+            if (!option.getBoolean("isBill", false)) {
+                KakaoToast.makeToast(context, context.getString(R.string.msgAdView), Toast.LENGTH_LONG).show();
+            }
+            long oldDate = option.getLong("billTimeStamp", System.currentTimeMillis());
+            try {
+                /**
+                 * 29일 경과 하면 다시 구매하도록 광고를 보여야 함.
+                 */
+                long termDate = (System.currentTimeMillis() - oldDate) * 1000 / 60 / 60 / 24;
+                if (termDate > 29) {
+                    editor.putBoolean("isBIll", false);
+                    editor.commit() ;
+                }
+            } catch (Exception e) {
 
+            }
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.day_cnt_widget);
             onDispDayTerm(context, views) ;
 

@@ -1,6 +1,7 @@
 package com.billcoreatech.daycnt415.billing;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -36,11 +37,17 @@ public class BillingManager<mConsumResListnere> implements PurchasesUpdatedListe
     public enum connectStatusTypes { waiting, connected, fail, disconnected }
     public connectStatusTypes connectStatus = connectStatusTypes.waiting ;
     private ConsumeResponseListener mConsumResListnere ;
-    String punchName = "210410_monthly";
+    /**
+     * 구글에 설정한 구독 상품 아이디와 일치 하지 않으면 오류를 발생 시킴.
+     */
+    String punchName = "210414_monthly_bill_999";
+    SharedPreferences option ;
+    SharedPreferences.Editor editor ;
 
     public BillingManager (Activity _activity) {
         mActivity = _activity ;
-
+        option = mActivity.getSharedPreferences("option", mActivity.MODE_PRIVATE);
+        editor = option.edit();
         mBillingClient = BillingClient.newBuilder(mActivity)
                 .setListener(this)
                 .enablePendingPurchases()
@@ -151,6 +158,7 @@ public class BillingManager<mConsumResListnere> implements PurchasesUpdatedListe
             JSONObject object = null ;
             String pID = "" ;
             String pDate = "" ;
+            editor = option.edit();
             for(Purchase purchase : purchases) {
                 Log.i(TAG, "성공값=" + purchase.getPurchaseToken()) ;
                 Log.i(TAG, "성공값=" + purchase.getOriginalJson());
@@ -158,7 +166,9 @@ public class BillingManager<mConsumResListnere> implements PurchasesUpdatedListe
                     object = new JSONObject(purchase.getOriginalJson());
                     pID = object.getString("purchaseToken");
                     pDate = StringUtil.getDate(object.getLong("purchaseTime"));
-
+                    editor.putLong("billTimeStamp", System.currentTimeMillis());
+                    editor.putBoolean("isBill", true);
+                    editor.commit();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -170,8 +180,14 @@ public class BillingManager<mConsumResListnere> implements PurchasesUpdatedListe
             }
         } else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.USER_CANCELED) {
             Log.i(TAG, "결제 취소");
+            editor = option.edit();
+            editor.putBoolean("isBill", false);
+            editor.commit();
         } else {
             Log.i(TAG, "오류 코드=" + billingResult.getResponseCode()) ;
+            editor = option.edit();
+            editor.putBoolean("isBill", false);
+            editor.commit();
         }
     }
 }
