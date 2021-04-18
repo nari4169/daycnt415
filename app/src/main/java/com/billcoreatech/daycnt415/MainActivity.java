@@ -70,19 +70,13 @@ public class MainActivity extends AppCompatActivity {
         View view = binding.getRoot() ;
         setContentView(view);
         option = getSharedPreferences("option", MODE_PRIVATE);
+        sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Log.i(TAG, "billTimeStamp=" + sdf.format(new Date(option.getLong("billTimeStamp", System.currentTimeMillis())))) ;
+        Log.i(TAG, "isBill=" + option.getBoolean("isBill", false)) ;
         if (option.getBoolean("isBill", false)) {
             binding.adView.setVisibility(View.GONE);
-        }
-        /**
-         * 설치한 첫날은 그냥 적용을 시작한다.
-         */
-        sdf = new SimpleDateFormat("yyyyMMdd");
-        long oldDate = option.getLong("billTimeStamp", System.currentTimeMillis());
-        if (sdf.format(new Date(System.currentTimeMillis())).equals(sdf.format(new Date(oldDate)))) {
-            editor = option.edit();
-            editor.putLong("billTimeStamp", System.currentTimeMillis());
-            editor.putBoolean("isBill", false);
-            editor.commit();
+        } else {
+            binding.adView.setVisibility(View.VISIBLE);
         }
         dayinfoLists = new ArrayList<>();
         holidays = new ArrayList<>() ;

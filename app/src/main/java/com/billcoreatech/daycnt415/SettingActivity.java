@@ -20,7 +20,9 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class SettingActivity extends AppCompatActivity {
 
@@ -31,6 +33,7 @@ public class SettingActivity extends AppCompatActivity {
     int min = 0 ;
     String TAG = "SettingActivity";
     BillingManager billingManager ;
+    SimpleDateFormat sdf ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +41,16 @@ public class SettingActivity extends AppCompatActivity {
         binding = ActivitySettingBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
-
+        sdf = new SimpleDateFormat("yyyy-MM-dd");
+        option = getSharedPreferences("option", MODE_PRIVATE);
+        billingManager = new BillingManager(SettingActivity.this);
+        Log.i(TAG, "billTimeStamp=" + sdf.format(new Date(option.getLong("billTimeStamp", System.currentTimeMillis())))) ;
+        Log.i(TAG, "isBill=" + option.getBoolean("isBill", false)) ;
+        if (option.getBoolean("isBill", false)) {
+            binding.adView.setVisibility(View.GONE);
+        } else {
+            binding.adView.setVisibility(View.VISIBLE);
+        }
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(InitializationStatus initializationStatus) {
@@ -46,12 +58,6 @@ public class SettingActivity extends AppCompatActivity {
         });
         AdRequest adRequest = new AdRequest.Builder().build();
         binding.adView.loadAd(adRequest);
-        billingManager = new BillingManager(SettingActivity.this);
-
-        option = getSharedPreferences("option", MODE_PRIVATE);
-        if (option.getBoolean("isBill", false)) {
-            binding.adView.setVisibility(View.GONE);
-        }
         editor = option.edit() ;
         binding.edStartTime.setText(option.getString("startTime", "18:00"));
         binding.edCloseTime.setText(option.getString("closeTime", "24:00"));

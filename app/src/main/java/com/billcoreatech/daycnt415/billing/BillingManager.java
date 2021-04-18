@@ -29,11 +29,13 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BillingManager<mConsumResListnere> implements PurchasesUpdatedListener {
+public class BillingManager<mConsumResListnere> implements PurchasesUpdatedListener, ConsumeResponseListener {
     String TAG = "BillingManager" ;
     BillingClient mBillingClient ;
     Activity mActivity ;
     public List<SkuDetails> mSkuDetails ;
+
+
     public enum connectStatusTypes { waiting, connected, fail, disconnected }
     public connectStatusTypes connectStatus = connectStatusTypes.waiting ;
     private ConsumeResponseListener mConsumResListnere ;
@@ -78,18 +80,22 @@ public class BillingManager<mConsumResListnere> implements PurchasesUpdatedListe
             }
         });
 
-        mConsumResListnere = new ConsumeResponseListener() {
-            @Override
-            public void onConsumeResponse(@NonNull BillingResult billingResult, @NonNull String purchaseToken) {
-                if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                    Log.i(TAG, "사용끝 + " + purchaseToken) ;
-                    return ;
-                } else {
-                    Log.i(TAG, "소모에 실패 " + billingResult.getResponseCode() + " 대상 상품 " + purchaseToken) ;
-                    return ;
-                }
-            }
-        };
+    }
+
+    /**
+     * 정기 결재 소모 여부를 수신
+     * @param billingResult
+     * @param purchaseToken
+     */
+    @Override
+    public void onConsumeResponse(@NonNull BillingResult billingResult, @NonNull String purchaseToken) {
+        if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
+            Log.i(TAG, "사용끝 + " + purchaseToken) ;
+            return ;
+        } else {
+            Log.i(TAG, "소모에 실패 " + billingResult.getResponseCode() + " 대상 상품 " + purchaseToken) ;
+            return ;
+        }
     }
 
     public int purchase(SkuDetails skuDetails) {
@@ -158,25 +164,24 @@ public class BillingManager<mConsumResListnere> implements PurchasesUpdatedListe
             JSONObject object = null ;
             String pID = "" ;
             String pDate = "" ;
-            editor = option.edit();
+
             for(Purchase purchase : purchases) {
                 Log.i(TAG, "성공값=" + purchase.getPurchaseToken()) ;
-                Log.i(TAG, "성공값=" + purchase.getOriginalJson());
                 try {
                     object = new JSONObject(purchase.getOriginalJson());
                     pID = object.getString("purchaseToken");
                     pDate = StringUtil.getDate(object.getLong("purchaseTime"));
-                    editor.putLong("billTimeStamp", System.currentTimeMillis());
+                    editor.putLong("billTimeStamp", object.getLong("purchaseTime"));
                     editor.putBoolean("isBill", true);
                     editor.commit();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                Log.i(TAG, "token=" + pID + "" + pDate) ;
+                Log.i(TAG, "token=" + pID + ">>>" + pDate) ;
                 ConsumeParams params = ConsumeParams.newBuilder()
                         .setPurchaseToken(pID)
                         .build() ;
-                mBillingClient.consumeAsync(params, mConsumResListnere);
+                mBillingClient.consumeAsync(params, BillingManager.this);
             }
         } else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.USER_CANCELED) {
             Log.i(TAG, "결제 취소");

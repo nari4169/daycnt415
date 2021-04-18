@@ -17,8 +17,7 @@ import com.google.android.gms.ads.MobileAds;
 
 
 /**
- * @author leoshin
- * Created by leoshin on 15. 6. 23..
+ *
  */
 public class KakaoToast {
 
@@ -34,11 +33,16 @@ public class KakaoToast {
         text.setText(body);
         mAdView = v.findViewById(R.id.adView);
         option = context.getSharedPreferences("option", context.MODE_PRIVATE);
-        if (!option.getBoolean("isBill", false)) {
-            MobileAds.initialize(context);
-            AdRequest adRequest = new AdRequest.Builder().build();
-            mAdView.loadAd(adRequest);
+        MobileAds.initialize(context);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
+        if (option.getBoolean("isBill", false)) {
+            mAdView.setVisibility(View.GONE);
+        } else {
+            mAdView.setVisibility(View.VISIBLE);
         }
+
         mAdView.setAdListener(new AdListener(){
             @Override
             public void onAdLoaded() {

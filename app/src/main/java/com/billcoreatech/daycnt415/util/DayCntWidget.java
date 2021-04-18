@@ -55,16 +55,21 @@ public class DayCntWidget extends AppWidgetProvider {
 
             if (!option.getBoolean("isBill", false)) {
                 KakaoToast.makeToast(context, context.getString(R.string.msgAdView), Toast.LENGTH_LONG).show();
+                KakaoToast.makeToast(context, context.getString(R.string.msgAdView), Toast.LENGTH_LONG).show();
             }
             long oldDate = option.getLong("billTimeStamp", System.currentTimeMillis());
             try {
                 /**
                  * 29일 경과 하면 다시 구매하도록 광고를 보여야 함.
                  */
-                long termDate = (System.currentTimeMillis() - oldDate) * 1000 / 60 / 60 / 24;
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                long termDate = (System.currentTimeMillis() - oldDate) / 1000 / 60 / 60 / 24 ;
+                Log.i(TAG, "결제일자=" + sdf.format(new Date(System.currentTimeMillis())) + "~" + sdf.format(new Date(oldDate)) + " 경과일수=" + termDate) ;
+                Log.i(TAG, "경과시간(ms)=" + (System.currentTimeMillis() - oldDate) + " ") ;
                 if (termDate > 29) {
-                    editor.putBoolean("isBIll", false);
+                    editor.putBoolean("isBill", false);
                     editor.commit() ;
+                    Log.i(TAG, "isBill=" + option.getBoolean("isBill", false));
                 }
             } catch (Exception e) {
 
