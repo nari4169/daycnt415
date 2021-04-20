@@ -48,8 +48,10 @@ public class SettingActivity extends AppCompatActivity {
         Log.i(TAG, "isBill=" + option.getBoolean("isBill", false)) ;
         if (option.getBoolean("isBill", false)) {
             binding.adView.setVisibility(View.GONE);
+            binding.btnAdPay.setVisibility(View.GONE);
         } else {
             binding.adView.setVisibility(View.VISIBLE);
+            binding.btnAdPay.setVisibility(View.VISIBLE);
         }
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
@@ -66,8 +68,6 @@ public class SettingActivity extends AppCompatActivity {
         binding.seekTransparent.setProgress(option.getInt("transparent", 100));
         binding.progressTextView.setText(option.getInt("transparent", 100) + "%");
         doSeekProgressDisp(option.getInt("transparent", 100));
-
-        binding.btnAdPay.setVisibility(View.GONE);
 
         binding.btnAdPay.setOnClickListener(new View.OnClickListener() {
             @Override

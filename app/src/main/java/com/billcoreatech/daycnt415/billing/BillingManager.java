@@ -41,8 +41,9 @@ public class BillingManager<mConsumResListnere> implements PurchasesUpdatedListe
     private ConsumeResponseListener mConsumResListnere ;
     /**
      * 구글에 설정한 구독 상품 아이디와 일치 하지 않으면 오류를 발생 시킴.
+     * 21.04.20 이번에는 1회성 구매로 변경
      */
-    String punchName = "210414_monthly_bill_999";
+    String punchName = "210420_monthly_bill";
     SharedPreferences option ;
     SharedPreferences.Editor editor ;
 
@@ -83,7 +84,7 @@ public class BillingManager<mConsumResListnere> implements PurchasesUpdatedListe
     }
 
     /**
-     * 정기 결재 소모 여부를 수신
+     * 정기 결재 소모 여부를 수신 : 21.04.20 1회성 구매의 경우는 결재하면 끝임.
      * @param billingResult
      * @param purchaseToken
      */
@@ -111,7 +112,7 @@ public class BillingManager<mConsumResListnere> implements PurchasesUpdatedListe
         skuIdList.add(punchName);
 
         SkuDetailsParams.Builder params = SkuDetailsParams.newBuilder();
-        params.setSkusList(skuIdList).setType(BillingClient.SkuType.SUBS);
+        params.setSkusList(skuIdList).setType(BillingClient.SkuType.INAPP);
         mBillingClient.querySkuDetailsAsync(params.build(), new SkuDetailsResponseListener() {
             @Override
             public void onSkuDetailsResponse(@NonNull BillingResult billingResult, @Nullable List<SkuDetails> skuDetailsList) {
