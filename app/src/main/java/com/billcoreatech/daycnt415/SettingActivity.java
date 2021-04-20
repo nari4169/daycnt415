@@ -67,6 +67,8 @@ public class SettingActivity extends AppCompatActivity {
         binding.progressTextView.setText(option.getInt("transparent", 100) + "%");
         doSeekProgressDisp(option.getInt("transparent", 100));
 
+        binding.btnAdPay.setVisibility(View.GONE);
+
         binding.btnAdPay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

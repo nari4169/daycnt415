@@ -59,7 +59,7 @@ public class InitActivity extends AppCompatActivity {
                                 Calendar cal = Calendar.getInstance();
                                 int year = cal.get(Calendar.YEAR);
                                 dbHandler = DBHandler.open(getApplicationContext());
-                                for(int iYear = year; iYear < year + 30 ; iYear++) {
+                                for(int iYear = year; iYear < year + 15 ; iYear++) {
                                     holidays.clear();
                                     holidays = LunarCalendar.holidayArray(String.valueOf(iYear));
                                     for (int iMonth = 1 ; iMonth < 13 ; iMonth++) {
