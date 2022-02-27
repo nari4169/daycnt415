@@ -9,11 +9,16 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import com.billcoreatech.daycnt415.R;
+import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.ResponseInfo;
 
 
 /**
@@ -70,6 +75,25 @@ public class KakaoToast {
                 super.onAdImpression();
                 Log.e(TAG, "onAdImpression");
             }
+
+            @Override
+            public void onAdFailedToLoad(@NonNull LoadAdError error) {
+                super.onAdFailedToLoad(error);
+                String errorDomain = error.getDomain();
+                int errorCode = error.getCode();
+                String errorMessage = error.getMessage();
+                ResponseInfo responseInfo = error.getResponseInfo();
+                AdError cause = error.getCause();
+                Log.i(TAG,"------------------------------------");
+                Log.i(TAG, "error=" + error.toString());
+                Log.i(TAG, "errorDomain=" + errorDomain);
+                Log.i(TAG, "errorCode=" + errorCode);
+                Log.i(TAG, "errorMessage=" + errorMessage);
+                Log.i(TAG, "responseInfo=" + responseInfo.getResponseId());
+                Log.i(TAG, "responseInfo=" + responseInfo.getMediationAdapterClassName());
+                Log.i(TAG,"------------------------------------");
+            }
+
         });
 
         Toast toast = new Toast(context);

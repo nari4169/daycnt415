@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.android.billingclient.api.SkuDetails;
 import com.billcoreatech.daycnt415.billing.BillingManager;
 import com.billcoreatech.daycnt415.databinding.ActivitySettingBinding;
+import com.github.anrwatchdog.ANRWatchDog;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
@@ -44,8 +45,7 @@ public class SettingActivity extends AppCompatActivity {
         sdf = new SimpleDateFormat("yyyy-MM-dd");
         option = getSharedPreferences("option", MODE_PRIVATE);
         billingManager = new BillingManager(SettingActivity.this);
-        Log.i(TAG, "billTimeStamp=" + sdf.format(new Date(option.getLong("billTimeStamp", System.currentTimeMillis())))) ;
-        Log.i(TAG, "isBill=" + option.getBoolean("isBill", false)) ;
+
         if (option.getBoolean("isBill", false)) {
             binding.adView.setVisibility(View.GONE);
             binding.btnAdPay.setVisibility(View.GONE);
@@ -58,6 +58,9 @@ public class SettingActivity extends AppCompatActivity {
             public void onInitializationComplete(InitializationStatus initializationStatus) {
             }
         });
+
+        new ANRWatchDog().start();
+
         AdRequest adRequest = new AdRequest.Builder().build();
         binding.adView.loadAd(adRequest);
         editor = option.edit() ;
@@ -79,6 +82,8 @@ public class SettingActivity extends AppCompatActivity {
                         SkuDetails skuDetails = (SkuDetails) billingManager.mSkuDetails.get(0);
                         int iResp = billingManager.purchase(skuDetails);
                         Log.i(TAG, "iResp=" + iResp);
+
+                        finish();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

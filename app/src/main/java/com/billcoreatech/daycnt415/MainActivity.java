@@ -1,5 +1,6 @@
 package com.billcoreatech.daycnt415;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -30,6 +31,7 @@ import com.billcoreatech.daycnt415.util.GridAdapter;
 import com.billcoreatech.daycnt415.util.Holidays;
 import com.billcoreatech.daycnt415.util.KakaoToast;
 import com.billcoreatech.daycnt415.util.StringUtil;
+import com.github.anrwatchdog.ANRWatchDog;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
@@ -62,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     private GestureDetectorCompat detector;
     Date pDate ;
     SimpleDateFormat sdf ;
+    AdRequest adRequest ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,12 +75,7 @@ public class MainActivity extends AppCompatActivity {
         option = getSharedPreferences("option", MODE_PRIVATE);
         sdf = new SimpleDateFormat("yyyy-MM-dd");
         Log.i(TAG, "billTimeStamp=" + sdf.format(new Date(option.getLong("billTimeStamp", System.currentTimeMillis())))) ;
-        Log.i(TAG, "isBill=" + option.getBoolean("isBill", false)) ;
-        if (option.getBoolean("isBill", false)) {
-            binding.adView.setVisibility(View.GONE);
-        } else {
-            binding.adView.setVisibility(View.VISIBLE);
-        }
+
         dayinfoLists = new ArrayList<>();
         holidays = new ArrayList<>() ;
         curYearFormat = new SimpleDateFormat("yyyy") ;
@@ -85,12 +83,14 @@ public class MainActivity extends AppCompatActivity {
         detector = new GestureDetectorCompat(this, new MyGestureListener());
         strUtil = new StringUtil();
 
+        new ANRWatchDog().start();
+
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(InitializationStatus initializationStatus) {
             }
         });
-        AdRequest adRequest = new AdRequest.Builder().build();
+        adRequest = new AdRequest.Builder().build();
         binding.adView.loadAd(adRequest);
 
         binding.gridView.setOnTouchListener(new View.OnTouchListener() {
@@ -118,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         binding.gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @SuppressLint("Range")
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 dayInfoBinding = DayinfoitemBinding.inflate(getLayoutInflater());
@@ -169,22 +170,30 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-
     @Override
     public void onBackPressed() {
-        long tempTime = System.currentTimeMillis();
-        long intervalTime = tempTime - backPressedTime;
-
-        if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime)
-        {
-            super.onBackPressed();
-        }
-        else
-        {
-            backPressedTime = tempTime;
-            KakaoToast.makeToast(getApplicationContext(), getString(R.string.msgBackPress), Toast.LENGTH_LONG).show();
-        }
+//        long tempTime = System.currentTimeMillis();
+//        long intervalTime = tempTime - backPressedTime;
+//
+//        if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime)
+//        {
+//            super.onBackPressed();
+//        }
+//        else
+//        {
+//            backPressedTime = tempTime;
+//            KakaoToast.makeToast(getApplicationContext(), getString(R.string.msgBackPress), Toast.LENGTH_LONG).show();
+//        }
+        // 종료 메시지 처리 방법 변경
+        StringUtil.showSnackbarAd(this, adRequest,
+                R.string.msgBackPress, R.string.Ok,
+                option.getBoolean("isBill", false),
+                new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     @Override
@@ -200,6 +209,19 @@ public class MainActivity extends AppCompatActivity {
         } catch (ParseException e) {
 
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Log.i(TAG, "isBill=" + option.getBoolean("isBill", false)) ;
+        if (option.getBoolean("isBill", false)) {
+            binding.adView.setVisibility(View.GONE);
+        } else {
+            binding.adView.setVisibility(View.VISIBLE);
+        }
+
     }
 
     public void getDispMonth(Date pDate) {

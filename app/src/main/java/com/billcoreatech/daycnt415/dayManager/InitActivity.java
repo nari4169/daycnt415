@@ -1,8 +1,5 @@
 package com.billcoreatech.daycnt415.dayManager;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,12 +7,19 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.billcoreatech.daycnt415.MainActivity;
 import com.billcoreatech.daycnt415.R;
+import com.billcoreatech.daycnt415.SettingActivity;
+import com.billcoreatech.daycnt415.billing.BillingManager;
 import com.billcoreatech.daycnt415.database.DBHandler;
 import com.billcoreatech.daycnt415.databinding.ActivityInitBinding;
 import com.billcoreatech.daycnt415.util.Holidays;
 import com.billcoreatech.daycnt415.util.LunarCalendar;
+import com.github.anrwatchdog.ANRError;
+import com.github.anrwatchdog.ANRWatchDog;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,6 +42,18 @@ public class InitActivity extends AppCompatActivity {
         setContentView(view);
         holidays = new ArrayList<>() ;
 
+        BillingManager billingManager = new BillingManager(InitActivity.this);
+
+        // new ANRWatchDog().start();
+        new ANRWatchDog().setANRListener(new ANRWatchDog.ANRListener() {
+            @Override
+            public void onAppNotResponding(ANRError error) {
+                // Handle the error. For example, log it to HockeyApp:
+                // ExceptionHandler.saveException(error, new CrashManager());
+                Log.e(TAG, "ANR ERROR = " + error.toString()) ;
+            }
+        }).start();
+
         sharedPreferences = getSharedPreferences("holidayData", MODE_PRIVATE);
         if (!"N".equals(sharedPreferences.getString("INIT", "N"))) {
             Intent intent = new Intent(InitActivity.this, MainActivity.class);
@@ -59,7 +75,7 @@ public class InitActivity extends AppCompatActivity {
                                 Calendar cal = Calendar.getInstance();
                                 int year = cal.get(Calendar.YEAR);
                                 dbHandler = DBHandler.open(getApplicationContext());
-                                for(int iYear = year; iYear < year + 15 ; iYear++) {
+                                for(int iYear = year; iYear < year + 5 ; iYear++) {
                                     holidays.clear();
                                     holidays = LunarCalendar.holidayArray(String.valueOf(iYear));
                                     for (int iMonth = 1 ; iMonth < 13 ; iMonth++) {

@@ -36,4 +36,5 @@
     <string name="msgAdView">"광고 보기"</string>
     <string name="msgNotInfo">사용자 정보가 없습니다.</string>
     <string name="btnadpay">광고제거 (1개월)</string>
+    <string name="Ok">확인</string>
 </resources>

@@ -1,6 +1,13 @@
 package com.billcoreatech.daycnt415.util;
 
+import android.app.Activity;
 import android.content.Context;
+import android.view.View;
+
+import com.billcoreatech.daycnt415.R;
+import com.billcoreatech.daycnt415.databinding.AppsFinishViewBinding;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -11,6 +18,28 @@ import java.util.Locale;
 public class StringUtil {
 
     static String TAG = "StringUtil" ;
+    static AppsFinishViewBinding binding ;
+
+    public static void showSnackbarAd(Activity context, AdRequest adRequest, final int mainTextStringId, final int actionStringId,
+                                      boolean isBill,
+                                      View.OnClickListener listener) {
+        Snackbar snackbar = Snackbar.make(
+                context.findViewById(android.R.id.content),
+                context.getString(mainTextStringId),
+                Snackbar.LENGTH_INDEFINITE);
+        snackbar.setAction(context.getString(actionStringId), listener);
+        binding = AppsFinishViewBinding.inflate(((Activity) context).getLayoutInflater());
+        binding.adView.loadAd(adRequest);
+        if (isBill) {
+            binding.adView.setVisibility(View.GONE);
+        }
+        View views = binding.getRoot();
+        //views.setBackgroundResource(R.drawable.background_text_gray);
+        Snackbar.SnackbarLayout snackbarLayout = (Snackbar.SnackbarLayout) snackbar.getView() ;
+        snackbarLayout.setPadding(0, 0, 0 ,0);
+        snackbarLayout.addView(views);
+        snackbar.show();
+    }
 
     public static String getToday() {
         long now = System.currentTimeMillis() ;
