@@ -22,6 +22,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GestureDetectorCompat;
 
+import com.billcoreatech.daycnt415.billing.BillingManager;
 import com.billcoreatech.daycnt415.database.DBHandler;
 import com.billcoreatech.daycnt415.databinding.ActivityMainBinding;
 import com.billcoreatech.daycnt415.databinding.DayinfoitemBinding;
@@ -65,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
     Date pDate ;
     SimpleDateFormat sdf ;
     AdRequest adRequest ;
+    BillingManager billingManager ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -199,6 +201,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
+        billingManager = new BillingManager(MainActivity.this);
 
         String mDate = strUtil.getToday();
         pDate = new Date();

@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.MutableLiveData;
 
 import com.android.billingclient.api.AcknowledgePurchaseParams;
 import com.android.billingclient.api.AcknowledgePurchaseResponseListener;
@@ -46,11 +47,12 @@ public class BillingManager implements PurchasesUpdatedListener, ConsumeResponse
     public enum connectStatusTypes { waiting, connected, fail, disconnected }
     public connectStatusTypes connectStatus = connectStatusTypes.waiting ;
     private ConsumeResponseListener mConsumResListnere ;
+
     /**
      * 구글에 설정한 구독 상품 아이디와 일치 하지 않으면 오류를 발생 시킴.
      * 21.04.20 이번에는 1회성 구매로 변경   210414_monthly_bill_999, 210420_monthly_bill
      */
-    String punchName = "210414_monthly_bill_999";
+    String punchName = "220302_bill_1month_999";
     String punchNameInapp = "210420_monthly_bill";
     String payType = BillingClient.SkuType.SUBS ;
 
@@ -73,7 +75,6 @@ public class BillingManager implements PurchasesUpdatedListener, ConsumeResponse
                     connectStatus = connectStatusTypes.connected ;
                     Log.e(TAG, "connected...") ;
                     purchaseAsync();
-                    getSkuDetailList();
 
                 } else {
                     connectStatus = connectStatusTypes.fail ;
@@ -125,6 +126,7 @@ public class BillingManager implements PurchasesUpdatedListener, ConsumeResponse
                     editor = option.edit();
                     editor.putBoolean("isBill", false);
                     editor.commit();
+                    Log.e(TAG, "getData=" + list.size());
                 } else {
                     for (Purchase purchase : list) {
                         Log.e(TAG, "getPurchaseToken=" + purchase.getPurchaseToken());
@@ -137,48 +139,47 @@ public class BillingManager implements PurchasesUpdatedListener, ConsumeResponse
                         Log.e(TAG, "getQuantity=" + purchase.getQuantity());
                         Log.e(TAG, "getSignature=" + purchase.getSignature());
                         Log.e(TAG, "isAutoRenewing=" + purchase.isAutoRenewing());
+                        Log.e(TAG, "getPurchaseState=" + purchase.getPurchaseState());
 
                         editor = option.edit();
                         editor.putBoolean("isBill", purchase.isAutoRenewing());
                         editor.commit();
                     }
                 }
+                Log.e(TAG, "--------------------------------------------------------------");
             }
         });
 
-        mBillingClient.queryPurchaseHistoryAsync(payType, new PurchaseHistoryResponseListener() {
-            @Override
-            public void onPurchaseHistoryResponse(@NonNull BillingResult billingResult, @Nullable List<PurchaseHistoryRecord> list) {
-                if (billingResult.getResponseCode() == 0) {
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    for(PurchaseHistoryRecord purchase : list) {
-                        Log.e(TAG, "getPurchaseToken=" + purchase.getPurchaseToken());
-                        for (String str : purchase.getSkus()) {
-                            Log.e(TAG, "getSkus=" + str);
-                        }
-                        Date now = new Date();
-                        now.setTime(purchase.getPurchaseTime());
-                        Log.e(TAG, "getPurchaseTime=" + sdf.format(now));
-                        Log.e(TAG, "getQuantity=" + purchase.getQuantity());
-                        Log.e(TAG, "getSignature=" + purchase.getSignature());
-
-                        if (payType.equals(BillingClient.SkuType.SUBS)) {
-                            ConsumeParams params = ConsumeParams.newBuilder()
-                                    .setPurchaseToken(purchase.getPurchaseToken())
-                                    .build();
-                            mBillingClient.consumeAsync(params, BillingManager.this);
-                        }
-
-                    }
-                }
-            }
-        });
+//        mBillingClient.queryPurchaseHistoryAsync(payType, new PurchaseHistoryResponseListener() {
+//            @Override
+//            public void onPurchaseHistoryResponse(@NonNull BillingResult billingResult, @Nullable List<PurchaseHistoryRecord> list) {
+//                if (billingResult.getResponseCode() == 0) {
+//                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//                    for(PurchaseHistoryRecord purchase : list) {
+//                        Log.e(TAG, "getPurchaseToken=" + purchase.getPurchaseToken());
+//                        for (String str : purchase.getSkus()) {
+//                            Log.e(TAG, "getSkus=" + str);
+//                        }
+//                        Date now = new Date();
+//                        now.setTime(purchase.getPurchaseTime());
+//                        Log.e(TAG, "getPurchaseTime=" + sdf.format(now));
+//                        Log.e(TAG, "getQuantity=" + purchase.getQuantity());
+//                        Log.e(TAG, "getSignature=" + purchase.getSignature());
+//
+//                        ConsumeParams params = ConsumeParams.newBuilder()
+//                                .setPurchaseToken(purchase.getPurchaseToken())
+//                                .build();
+//                        mBillingClient.consumeAsync(params, BillingManager.this);
+//
+//                    }
+//                }
+//            }
+//        });
     }
 
     public void getSkuDetailList() {
         List<String> skuIdList = new ArrayList<>() ;
         skuIdList.add(punchName);
-
         SkuDetailsParams.Builder params = SkuDetailsParams.newBuilder();
         params.setSkusList(skuIdList).setType(payType);
         mBillingClient.querySkuDetailsAsync(params.build(), new SkuDetailsResponseListener() {
@@ -204,9 +205,10 @@ public class BillingManager implements PurchasesUpdatedListener, ConsumeResponse
                             + "\n" + skuDetails.getIntroductoryPriceAmountMicros()
                             + "\n" + skuDetails.getOriginalPrice()
                             + "\n" + skuDetails.getPriceCurrencyCode()) ;
-                }
-                mSkuDetails = skuDetailsList ;
 
+                }
+
+                purchase(skuDetailsList.get(0));
             }
         });
     }
@@ -215,75 +217,90 @@ public class BillingManager implements PurchasesUpdatedListener, ConsumeResponse
      * @param billingResult
      * @param purchases
      */
-    @Override
-    public void onPurchasesUpdated(@NonNull BillingResult billingResult, @Nullable List<Purchase> purchases) {
-
-        if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && purchases != null) {
-            Log.i(TAG, "구매 성공>>>" + billingResult.getDebugMessage());
-            JSONObject object = null ;
-            String pID = "" ;
-            String pDate = "" ;
-
-            for(Purchase purchase : purchases) {
-                //handlePurchase(purchase);
-                Log.i(TAG, "성공값=" + purchase.getPurchaseToken()) ;
-                try {
-                    Log.e(TAG, "getOriginalJson=" + purchase.getOriginalJson());
-                    object = new JSONObject(purchase.getOriginalJson());
-                    String sku = "";
-                    for (String str : purchase.getSkus()) {
-                        sku = str ;
-                        Log.e(TAG, "SKU=" + sku);
-                    }
-                    pID = object.getString("purchaseToken");
-                    pDate = StringUtil.getDate(object.getLong("purchaseTime"));
-                    if (!sku.equals(punchName)) {
-                        // 자동 구매가 아닌 때 1회성 일때 소모 처리 ?
-                        ConsumeParams params = ConsumeParams.newBuilder()
-                                .setPurchaseToken(purchase.getPurchaseToken())
-                                .build();
-                        mBillingClient.consumeAsync(params, BillingManager.this);
-                        editor.putLong("billTimeStamp", object.getLong("purchaseTime"));
-                        editor.putBoolean("isBill", true);
-                        editor.putString("token", purchase.getPurchaseToken());
-                    } else {
-                        editor.putLong("billTimeStamp", object.getLong("purchaseTime"));
-                        editor.putBoolean("isBill", object.getBoolean("autoRenewing"));
-                        editor.putString("token", purchase.getPurchaseToken());
-                    }
-                    editor.commit();
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
+    public void onPurchasesUpdated(BillingResult billingResult, List<Purchase> purchases) {
+        if (billingResult == null) {
+            Log.wtf(TAG, "onPurchasesUpdated: null BillingResult");
+            return;
+        }
+        int responseCode = billingResult.getResponseCode();
+        String debugMessage = billingResult.getDebugMessage();
+        Log.d(TAG, "onPurchasesUpdated: $responseCode $debugMessage");
+        switch (responseCode) {
+            case BillingClient.BillingResponseCode.OK:
+                if (purchases == null) {
+                    Log.d(TAG, "onPurchasesUpdated: null purchase list");
+                    processPurchases(null);
+                } else {
+                    processPurchases(purchases);
                 }
-            }
-        } else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.USER_CANCELED) {
-            Log.i(TAG, "결제 취소");
-            editor = option.edit();
-            editor.putBoolean("isBill", false);
-            editor.commit();
-        } else {
-            Log.i(TAG, "오류 코드=" + billingResult.getResponseCode()) ;
-            editor = option.edit();
-            editor.putBoolean("isBill", false);
-            editor.commit();
+                break;
+            case BillingClient.BillingResponseCode.USER_CANCELED:
+                Log.i(TAG, "onPurchasesUpdated: User canceled the purchase");
+                break;
+            case BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED:
+                Log.i(TAG, "onPurchasesUpdated: The user already owns this item");
+                break;
+            case BillingClient.BillingResponseCode.DEVELOPER_ERROR:
+                Log.e(TAG, "onPurchasesUpdated: Developer error means that Google Play " +
+                        "does not recognize the configuration. If you are just getting started, " +
+                        "make sure you have configured the application correctly in the " +
+                        "Google Play Console. The SKU product ID must match and the APK you " +
+                        "are using must be signed with release keys."
+                );
+                break;
         }
     }
 
-    void handlePurchase(Purchase purchase) {
+    private void processPurchases(List<Purchase> purchasesList) {
+        if (purchasesList != null) {
+            Log.d(TAG, "processPurchases: " + purchasesList.size() + " purchase(s)");
+        } else {
+            Log.d(TAG, "processPurchases: with no purchases");
+        }
+        if (isUnchangedPurchaseList(purchasesList)) {
+            Log.d(TAG, "processPurchases: Purchase list has not changed");
+            return;
+        }
+    }
+
+    /**
+     * subs 의 경우는 아래와 같이 구매확인을 해 주어야 됨.
+     * @param purchase
+     */
+    public void confirmPerchase(Purchase purchase) {
+        //PURCHASED
         if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
             if (!purchase.isAcknowledged()) {
-                AcknowledgePurchaseParams acknowledgePurchaseParams = AcknowledgePurchaseParams.newBuilder()
-                        .setPurchaseToken(purchase.getPurchaseToken())
-                        .build();
+                AcknowledgePurchaseParams acknowledgePurchaseParams =
+                        AcknowledgePurchaseParams.newBuilder()
+                                .setPurchaseToken(purchase.getPurchaseToken())
+                                .build();
                 mBillingClient.acknowledgePurchase(acknowledgePurchaseParams, new AcknowledgePurchaseResponseListener() {
                     @Override
                     public void onAcknowledgePurchaseResponse(@NonNull BillingResult billingResult) {
                         Log.e(TAG, "getResponseCode=" + billingResult.getResponseCode());
+                        editor.putBoolean("isBill", true);
+                        editor.commit();
                     }
                 });
             }
         }
+        //PENDING
+        else if (purchase.getPurchaseState() == Purchase.PurchaseState.PENDING) {
+            //구매 유예
+            Log.e(TAG, "//구매 유예");
+        }
+        else {
+            //구매확정 취소됨(기타 다양한 사유...)
+            Log.e(TAG, "//구매확정 취소됨(기타 다양한 사유...)");
+        }
+    }
+
+    private boolean isUnchangedPurchaseList(List<Purchase> purchasesList) {
+        for (Purchase purchase : purchasesList) {
+            confirmPerchase(purchase);
+        }
+        return false;
     }
 
 }

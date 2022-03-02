@@ -79,9 +79,8 @@ public class SettingActivity extends AppCompatActivity {
                 if(billingManager.connectStatus == BillingManager.connectStatusTypes.connected) {
                     Log.i(TAG, "connected ..") ;
                     try {
-                        SkuDetails skuDetails = (SkuDetails) billingManager.mSkuDetails.get(0);
-                        int iResp = billingManager.purchase(skuDetails);
-                        Log.i(TAG, "iResp=" + iResp);
+
+                        billingManager.getSkuDetailList();
 
                         finish();
                     } catch (Exception e) {
