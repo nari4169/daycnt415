@@ -2,7 +2,9 @@ package com.billcoreatech.daycnt415.util;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.View;
+import android.widget.TextView;
 
 import com.billcoreatech.daycnt415.R;
 import com.billcoreatech.daycnt415.databinding.AppsFinishViewBinding;
@@ -34,10 +36,10 @@ public class StringUtil {
             binding.adView.setVisibility(View.GONE);
         }
         View views = binding.getRoot();
-        //views.setBackgroundResource(R.drawable.background_text_gray);
         Snackbar.SnackbarLayout snackbarLayout = (Snackbar.SnackbarLayout) snackbar.getView() ;
         snackbarLayout.setPadding(0, 0, 0 ,0);
         snackbarLayout.addView(views);
+        snackbar.setBackgroundTint(context.getColor(R.color.softblue));
         snackbar.show();
     }
 

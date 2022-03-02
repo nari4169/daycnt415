@@ -12,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.billcoreatech.daycnt415.MainActivity;
 import com.billcoreatech.daycnt415.R;
-import com.billcoreatech.daycnt415.SettingActivity;
 import com.billcoreatech.daycnt415.billing.BillingManager;
 import com.billcoreatech.daycnt415.database.DBHandler;
 import com.billcoreatech.daycnt415.databinding.ActivityInitBinding;

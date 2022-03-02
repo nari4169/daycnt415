@@ -37,4 +37,5 @@
     <string name="msgNotInfo">사용자 정보가 없습니다.</string>
     <string name="btnadpay">광고제거 (1개월)</string>
     <string name="Ok">확인</string>
+    <string name="msgAppUpdateCompletedForRestart">앱이 업데이트가 되어 다시 시작 해야 합니다.</string>
 </resources>

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GestureDetectorCompat;
 
+import com.billcoreatech.daycnt415.billing.BillingManager;
 import com.billcoreatech.daycnt415.database.DBHandler;
 import com.billcoreatech.daycnt415.databinding.ActivityMainBinding;
 import com.billcoreatech.daycnt415.databinding.DayinfoitemBinding;
@@ -29,14 +31,31 @@ import com.billcoreatech.daycnt415.databinding.PopupWindowBinding;
 import com.billcoreatech.daycnt415.dayManager.DayinfoBean;
 import com.billcoreatech.daycnt415.util.GridAdapter;
 import com.billcoreatech.daycnt415.util.Holidays;
-import com.billcoreatech.daycnt415.util.KakaoToast;
 import com.billcoreatech.daycnt415.util.StringUtil;
 import com.github.anrwatchdog.ANRWatchDog;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.identifier.AdvertisingIdClient;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.android.gms.appset.AppSet;
+import com.google.android.gms.appset.AppSetIdClient;
+import com.google.android.gms.appset.AppSetIdInfo;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.play.core.appupdate.AppUpdateInfo;
+import com.google.android.play.core.appupdate.AppUpdateManager;
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
+import com.google.android.play.core.install.model.AppUpdateType;
+import com.google.android.play.core.install.model.UpdateAvailability;
+import com.google.android.play.core.review.ReviewInfo;
+import com.google.android.play.core.review.ReviewManager;
+import com.google.android.play.core.review.ReviewManagerFactory;
+import com.google.android.play.core.review.model.ReviewErrorCode;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -45,6 +64,7 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final int UPDATE_APP_REQUEST = 100;
     ActivityMainBinding binding ;
     PopupWindowBinding popupBinding ;
     DayinfoitemBinding dayInfoBinding;
@@ -65,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
     Date pDate ;
     SimpleDateFormat sdf ;
     AdRequest adRequest ;
+    BillingManager billingManager ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +113,34 @@ public class MainActivity extends AppCompatActivity {
         });
         adRequest = new AdRequest.Builder().build();
         binding.adView.loadAd(adRequest);
+        AppUpdateManager appUpdateManager = AppUpdateManagerFactory.create(MainActivity.this);
+        Task<AppUpdateInfo> appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
+        appUpdateInfoTask.addOnSuccessListener(appUpdateInfo -> {
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+                    // This example applies an immediate update. To apply a flexible update
+                    // instead, pass in AppUpdateType.FLEXIBLE
+                    && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+                // Request the update.
+                try {
+                    doUpdateApps(appUpdateManager, appUpdateInfo);
+                } catch (IntentSender.SendIntentException e) {
+                    Log.e(TAG, "update Error...");
+                }
+            }
+        });
+
+        ReviewManager manager = ReviewManagerFactory.create(this);
+        Task<ReviewInfo> request = manager.requestReviewFlow();
+        request.addOnCompleteListener( task -> {
+            if (task.isSuccessful()) {
+                ReviewInfo reviewInfo = task.getResult();
+                doReviewUpdate(manager, MainActivity.this, reviewInfo);
+            } else {
+                @ReviewErrorCode
+                int reviewErrorCode = task.getException().hashCode();
+
+            }
+        }) ;
 
         binding.gridView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -168,6 +217,39 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        getIdAndLAT();
+
+    }
+
+    private void doUpdateApps(AppUpdateManager appUpdateManager, AppUpdateInfo appUpdateInfo) throws IntentSender.SendIntentException {
+        appUpdateManager.startUpdateFlowForResult(
+                // Pass the intent that is returned by 'getAppUpdateInfo()'.
+                appUpdateInfo,
+                // Or 'AppUpdateType.FLEXIBLE' for flexible updates.
+                AppUpdateType.IMMEDIATE,
+                // The current activity making the update request.
+                this,
+                // Include a request code to later monitor this update request.
+                UPDATE_APP_REQUEST);
+    }
+
+    private void doReviewUpdate(ReviewManager manager, MainActivity mainActivity, ReviewInfo reviewInfo) {
+        Task<Void> flow = manager.launchReviewFlow(mainActivity, reviewInfo);
+        flow.addOnCompleteListener( task -> {
+           Log.e(TAG, "result=" + task.isSuccessful()) ;
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == UPDATE_APP_REQUEST) {
+            if (resultCode != RESULT_OK) {
+                Log.e(TAG, "Update flow failed! Result code: " + resultCode);
+                Toast.makeText(MainActivity.this, getString(R.string.msgAppUpdateCompletedForRestart), Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        }
     }
 
     @Override
@@ -199,6 +281,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
+        billingManager = new BillingManager(MainActivity.this);
 
         String mDate = strUtil.getToday();
         pDate = new Date();
@@ -315,6 +399,43 @@ public class MainActivity extends AppCompatActivity {
         for (int i = iNext ; i < 7 ; i++) {
             dayList.add("") ;
         }
+    }
+
+    private void getIdAndLAT() {
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                AdvertisingIdClient.Info adInfo = null;
+                try {
+                    adInfo = AdvertisingIdClient.getAdvertisingIdInfo(MainActivity.this);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (GooglePlayServicesRepairableException e) {
+                    e.printStackTrace();
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    e.printStackTrace();
+                }
+                final String GAID = adInfo.getId();
+                final boolean limitAdTracking = adInfo.isLimitAdTrackingEnabled();
+
+                Log.e(TAG, GAID + "=" + limitAdTracking);
+
+                AppSetIdClient client = AppSet.getClient(MainActivity.this);
+                Task<AppSetIdInfo> task = client.getAppSetIdInfo();
+
+                task.addOnSuccessListener(new OnSuccessListener<AppSetIdInfo>() {
+                    @Override
+                    public void onSuccess(AppSetIdInfo appSetIdInfo) {
+                        int scope = appSetIdInfo.getScope();
+                        String id = appSetIdInfo.getId();
+
+                        Log.e(TAG, "" + id + "" + scope);
+                    }
+                });
+            }
+        }).start();
+
     }
 
     class MyGestureListener extends GestureDetector.SimpleOnGestureListener {

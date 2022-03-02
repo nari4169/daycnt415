@@ -1,5 +1,6 @@
 package com.billcoreatech.daycnt415.database;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -46,6 +47,7 @@ public class DBHandler extends RuntimeException {
         return rs ;
     }
 
+    @SuppressLint("Range")
     public String getIsHoliday(String mDate) {
         String isHoliday = "N";
         StringBuffer sb = new StringBuffer();
@@ -58,6 +60,7 @@ public class DBHandler extends RuntimeException {
         return isHoliday ;
     }
 
+    @SuppressLint("Range")
     public String getBfDay(String mDate) {
         String isHoliday = "M";
         String bfDay = "";
@@ -81,6 +84,7 @@ public class DBHandler extends RuntimeException {
         return bfDay ;
     }
 
+    @SuppressLint("Range")
     public String getAfDay(String mDate) {
         String isHoliday = "M";
         String afDay = "";
@@ -144,6 +148,7 @@ public class DBHandler extends RuntimeException {
         return _id ;
     }
 
+    @SuppressLint("Range")
     public String getTomorrow(String mDate) {
 
         String afDay = "";

@@ -39,4 +39,5 @@
     <string name="msgNotInfo">Not info</string>
     <string name="btnadpay">Ad Free 1 Month</string>
     <string name="Ok">OK</string>
+    <string name="msgAppUpdateCompletedForRestart">App\'s Update Completed for Restart App</string>
 </resources>

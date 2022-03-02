@@ -1,5 +1,7 @@
 package com.billcoreatech.daycnt415.util;
 
+import static android.app.PendingIntent.FLAG_IMMUTABLE;
+
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -49,7 +51,7 @@ public class DayCntWidget extends AppWidgetProvider {
             Log.i(TAG, "android.appwidget.action.APPWIDGET_UPDATE");
             long nexttime = SystemClock.elapsedRealtime() + WIDGET_UPDATE_INTERVAL;
             removePreviousAlarm();
-            pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+            pendingIntent = PendingIntent.getBroadcast(context, 0, intent, FLAG_IMMUTABLE);
             mManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             mManager.set(AlarmManager.ELAPSED_REALTIME, nexttime, pendingIntent);
 
@@ -304,7 +306,7 @@ public class DayCntWidget extends AppWidgetProvider {
         // Enter relevant functionality for when the last widget is disabled
         AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, DayCntWidget.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent,0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent,FLAG_IMMUTABLE);
         alarmManager.cancel(pendingIntent);//알람 해제
         pendingIntent.cancel(); //인텐트 해제
     }
