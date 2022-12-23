@@ -13,5 +13,6 @@ https://billcorea.tistory.com/165
 playstore 에서 내려 받아 보세요.
 https://play.google.com/store/apps/details?id=com.billcoreatech.daycnt415
 
+이 코드를 kotlin 으로 변환한 코드는 다음 링크에서 참고 하세요.
 
-
+https://github.com/nari4169/daycnt415_kotlin
